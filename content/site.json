@@ -1,0 +1,101 @@
+{
+  "company": {
+    "brand": "RC - Design",
+    "legalName": "Roomcreator and Design Co., Ltd.",
+    "legalNameTh": "บริษัท รูมครีเอเตอร์ แอนด์ ดีไซด์ จำกัด",
+    "about": "Roomcreator and Design Co., Ltd. builds custom homes, sells new homes, and renovates older houses in Thailand.",
+    "phone": "0XX-XXX-XXXX",
+    "line": "@rcdesign",
+    "email": "contact@rcdesign.co.th",
+    "hours": "Mon–Sat, 8:00–17:00",
+    "address": "",
+    "facebook": ""
+  },
+  "hero": {
+    "eyebrow": "Home Builder in Thailand",
+    "headline": [
+      "Your home,",
+      "built right,",
+      "from plan to keys"
+    ],
+    "lead": "We design and build homes on your land, sell new homes our team has finished, and renovate older houses. One contract, one team, weekly progress updates.",
+    "rating": "120+ homes handed over",
+    "image": "img/hero.jpg",
+    "structureLines": true
+  },
+  "stats": [
+    {
+      "value": 120,
+      "suffix": "+",
+      "label": "Homes built"
+    },
+    {
+      "value": 12,
+      "suffix": "",
+      "label": "Years building"
+    },
+    {
+      "value": 24000,
+      "suffix": "",
+      "label": "Square metres built"
+    },
+    {
+      "value": 10,
+      "suffix": "yr",
+      "label": "Structural warranty"
+    }
+  ],
+  "services": [
+    {
+      "title": "Custom Home Construction",
+      "desc": "We build on your land: structure, systems, and finishes, under one fixed contract with weekly progress reports.",
+      "tag": "Main service",
+      "type": "build"
+    },
+    {
+      "title": "Design & Building Permits",
+      "desc": "Floor plans, 3D views, engineering drawings, and permit submission, so construction starts on paper first.",
+      "tag": "",
+      "type": "build"
+    },
+    {
+      "title": "New Homes for Sale",
+      "desc": "Finished homes built by our own crews. Visit the house, check the work, and move in.",
+      "tag": "Ready to view",
+      "type": "buy"
+    },
+    {
+      "title": "Renovation",
+      "desc": "Upgrade or rebuild an older house, from a new kitchen to new structure, wiring, and roof.",
+      "tag": "",
+      "type": "reno"
+    }
+  ],
+  "process": [
+    {
+      "title": "Site visit & brief",
+      "desc": "We visit your land, check access, soil, and drainage, and listen to how your family lives.",
+      "duration": "~1 week"
+    },
+    {
+      "title": "Design & quote",
+      "desc": "Floor plans and 3D views, then an itemised quote with materials listed by brand and grade.",
+      "duration": "2–4 weeks"
+    },
+    {
+      "title": "Contract & permit",
+      "desc": "Fixed-price contract with payments tied to finished stages. We prepare and submit the permit.",
+      "duration": "2–6 weeks"
+    },
+    {
+      "title": "Construction",
+      "desc": "Foundation, structure, roof, systems, finishes. Photos and a progress report every week.",
+      "duration": "6–10 months"
+    },
+    {
+      "title": "Inspection & handover",
+      "desc": "We walk the house with you, fix every item on the list, then hand over the keys and warranty.",
+      "duration": "~2 weeks"
+    }
+  ]
+}

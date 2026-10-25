@@ -1,0 +1,1308 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>RC Design Home Builder</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="RC Design (Roomcreator and Design Co., Ltd.) builds custom homes in Thailand, sells new homes, and renovates older houses. Design, permits, and construction by one team.">
+<meta name="theme-color" content="#123a66">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22%23123a66%22/%3E%3Cg%20transform%3D%22translate%288%2011%29%20scale%28.0608%29%22%20fill%3D%22none%22%20stroke%3D%22%23e6e7ea%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20stroke-width%3D%2240%22%20d%3D%22M10%20670H780M44%20430V670M10%20490L291%20322V10M245%2035L775%20375M739%20310V670%22/%3E%3Cpath%20stroke-width%3D%2228%22%20d%3D%22M83%20665V492L322%20349%20M330%20665V138L700%20373V665%20M108%20640V505L307%20387V640Z%20M355%20640V183L674%20385V640Z%20M440%20459H578%20M509%20390V528%22/%3E%3Ccircle%20stroke-width%3D%2228%22%20cx%3D%22509%22%20cy%3D%22459%22%20r%3D%2269%22/%3E%3C/g%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout: rem-based adaptive grid; white page, near-black ink panels, one burnt-orange accent; hero = finished home over its blueprint. */
+:root{
+  --background:#ffffff; --foreground:#111111; --ink:#0a0a0a;
+  --muted:#8d8d8d; --subtle:#b6b6b6; --line:#e6e5e2;
+  --surface:#f1f0ee; --surface-2:#e3e2df;
+  --accent:#b15f2c; --accent-from:#cf8047; --accent-to:#97501f;
+  --hero-to:#c9c9c9; --blueprint:#1e4466;
+  --navy:#123a66; --navy-deep:#0d2c4f; --silver:#d9dade;
+  --radius-pill:9999px; --radius-card:2rem; --radius-card-sm:1.25rem; --radius-control:.875rem;
+  --font:'Onest','IBM Plex Sans Thai',system-ui,sans-serif;
+  --font-th:'IBM Plex Sans Thai','Onest',system-ui,sans-serif;
+  --font-mono:'IBM Plex Mono',ui-monospace,monospace;
+  --e-line:cubic-bezier(.215,.61,.355,1); --e-word:cubic-bezier(.165,.84,.44,1);
+  --e-soft:cubic-bezier(.16,1,.3,1); --e-snap:cubic-bezier(.2,.8,.2,1);
+  color-scheme:light;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;-webkit-font-smoothing:antialiased}
+@media (max-width:1920px){html{font-size:.833333vw}}
+@media (max-width:1440px){html{font-size:1.111111vw}}
+@media (max-width:1024px){html{font-size:1.5625vw}}
+@media (max-width:640px){html{font-size:4.444444vw}}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+.lenis.lenis-stopped{overflow:hidden}
+body{background:var(--background);color:var(--foreground);font-family:var(--font);overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+ul,ol{list-style:none}
+img{display:block;max-width:100%}
+svg.i{width:1em;height:1em;flex:none}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.th{font-family:var(--font-th)}
+.shell{max-width:88rem;margin-inline:auto;padding-left:max(1.25rem,env(safe-area-inset-left,0px));padding-right:max(1.25rem,env(safe-area-inset-right,0px))}
+@media (min-width:640px){.shell{padding-left:max(2rem,env(safe-area-inset-left,0px));padding-right:max(2rem,env(safe-area-inset-right,0px))}}
+h1,h2,h3{text-wrap:balance}
+
+/* reveals */
+.rv{opacity:0;transform:translateY(var(--ty,16px)) scale(var(--sc,1));transition:opacity .8s var(--e-soft) var(--d,0ms),transform .8s var(--e-soft) var(--d,0ms)}
+.rv.in{opacity:var(--o,1);transform:none}
+.lr .ln{display:block;overflow:hidden;padding-bottom:.1em;margin-bottom:-.1em}
+.lr .ln>span{display:inline-block;transform:translateY(105%);opacity:0;transition:transform .9s var(--e-line),opacity .9s var(--e-line);transition-delay:calc(var(--d,0ms) + var(--i,0) * var(--st,0ms))}
+.lr.in .ln>span{transform:none;opacity:1}
+.wr .w{display:inline-block;opacity:0;transform:translateY(24px);transition:opacity .7s var(--e-word),transform .7s var(--e-word);transition-delay:calc(var(--i) * 35ms)}
+.wr.in .w{opacity:1;transform:none}
+
+/* shared */
+.eyebrow{display:inline-flex;align-items:center;gap:.5rem;font-size:.875rem;font-weight:500;color:rgba(17,17,17,.7)}
+.eyebrow::before{content:"";width:.375rem;height:.375rem;border-radius:9999px;background:rgba(17,17,17,.5)}
+.eyebrow.light{color:rgba(255,255,255,.7)} .eyebrow.light::before{background:rgba(255,255,255,.6)}
+.pill{display:inline-flex;align-items:center;gap:.75rem;border-radius:9999px;font-size:.875rem;font-weight:500;padding:.875rem 1.75rem;transition:transform .35s var(--e-snap),background .2s}
+.pill.arrow{padding:.375rem .375rem .375rem 1.5rem}
+.pill .bd{width:2.25rem;height:2.25rem;display:grid;place-items:center;border-radius:9999px;font-size:1rem;background:var(--ink);color:#fff}
+.pill .bd svg{transition:transform .35s var(--e-snap)}
+.pill.dark{background:var(--ink);color:#fff} .pill.dark .bd{background:#fff;color:var(--ink)}
+.pill.light{background:var(--surface);color:var(--foreground)}
+.pill.outline{border:1px solid var(--line);color:var(--foreground)}
+.pill.outline:not(.arrow){padding:calc(.875rem - 1px) calc(1.75rem - 1px)}
+.chip{display:inline-flex;border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:9999px;padding:.5rem 1rem;font-size:.875rem}
+@media (hover:hover) and (pointer:fine){
+  .pill:hover{transform:scale(1.04)}
+  .pill:hover .bd .ar{transform:translate(3px,0)} .pill:hover .bd .ur{transform:translate(2px,-2px)}
+}
+
+/* loader */
+#loader{position:fixed;inset:0;z-index:120;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2rem;background:radial-gradient(120% 90% at 50% 35%,var(--navy) 0%,var(--navy-deep) 100%);color:#fff;border-radius:0 0 2rem 2rem;transition:transform .75s cubic-bezier(.22,1,.36,1)}
+#loader.out{transform:translateY(-100%)}
+#loader .ctr{display:flex;flex-direction:column;align-items:center;gap:1.25rem;text-align:center;transition:opacity .6s var(--e-soft),transform .6s var(--e-soft)}
+#loader.out .ctr{opacity:0;transform:translateY(-12px)}
+#loader .row{color:rgba(255,255,255,.5)}
+#loader .lmark{width:8.5rem;height:7.4rem;stroke:url(#silver);stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.15s cubic-bezier(.65,0,.35,1) .1s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+#loader .nm{display:flex;align-items:baseline;justify-content:center;white-space:pre;font-weight:500;font-size:1.2rem;letter-spacing:-.01em;line-height:1.3;color:var(--silver);opacity:0;transform:translateY(10px);transition:opacity .6s var(--e-soft),transform .6s var(--e-soft)}
+@media (min-width:640px){#loader .nm{font-size:1.9rem}}
+#loader .nm.show{opacity:1;transform:none}
+#loader .nm span{display:inline-block;white-space:pre}
+#loader .x,#loader .g{overflow:hidden;vertical-align:bottom;transition:width .85s cubic-bezier(.65,0,.35,1),opacity .45s ease}
+#loader .g{width:0;opacity:0}
+#loader .k{transition:color .5s,transform .6s var(--e-soft)}
+#loader .nm.short .x{opacity:0}
+#loader .nm.short .g{opacity:1}
+#loader .nm.short .k{color:#fff;font-weight:600}
+#loader .thl{overflow:hidden;padding-bottom:.2em;margin-top:-.6rem}
+#loader .thl span{display:block;font-size:1.05rem;font-weight:500;letter-spacing:.01em;color:rgba(255,255,255,.78);transform:translateY(-115%);opacity:0;transition:transform .8s cubic-bezier(.16,1,.3,1),opacity .5s}
+@media (min-width:640px){#loader .thl span{font-size:1.35rem}}
+#loader .thl.show span{transform:none;opacity:1}
+#loader .prog{width:min(22rem,72vw);display:flex;flex-direction:column;gap:.75rem}
+#loader .track{height:1px;background:rgba(255,255,255,.15)}
+#loader .fill{height:100%;width:0;background:var(--silver);transition:width .1s ease-out}
+#loader .row{display:flex;justify-content:space-between;font-size:.75rem;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:rgba(255,255,255,.45)}
+#loader .num{font-variant-numeric:tabular-nums;color:rgba(255,255,255,.8)}
+
+.skip{position:absolute;left:-999px}
+.skip:focus{position:fixed;left:1rem;top:1rem;z-index:60;border-radius:.875rem;background:var(--ink);padding:.5rem 1rem;font-size:.875rem;color:#fff}
+
+/* header */
+header.site{position:absolute;inset-inline:0;top:0;z-index:50;--ty:-14px;padding-top:env(safe-area-inset-top,0px)}
+header.site .bar{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding-block:1.25rem}
+@media (min-width:640px){header.site .bar{padding-block:1.5rem}}
+.logo{display:flex;align-items:center;gap:.5rem;font-size:1.125rem;font-weight:600;letter-spacing:-.01em;transition:transform .35s var(--e-snap)}
+.logo svg{font-size:2.1rem;color:var(--navy)}
+.logo{gap:.65rem}
+.logo small{font-weight:500;font-size:.75rem;color:rgba(17,17,17,.5);letter-spacing:0}
+.pnav{display:none}
+@media (min-width:1024px){.pnav{display:flex;gap:2rem;font-size:.875rem;font-weight:500}}
+.pnav button{display:inline-block;opacity:.8;transition:transform .3s var(--e-snap),opacity .3s}
+.hright{display:flex;align-items:center;gap:.75rem}
+.clock{display:none;align-items:center;gap:.75rem;border:1px solid rgba(230,229,226,.8);background:rgba(255,255,255,.4);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border-radius:.875rem;padding:.5rem .75rem;font-size:.75rem;color:rgba(17,17,17,.7)}
+@media (min-width:768px){.clock{display:flex}}
+.clock .lbl{color:rgba(17,17,17,.45)} .clock .t{min-width:3.5rem;font-variant-numeric:tabular-nums;font-weight:500;color:#111} .clock .sep{color:rgba(17,17,17,.3)} .clock .dt{font-weight:500}
+.menubtn{border:1px solid rgba(230,229,226,.8);background:rgba(255,255,255,.4);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border-radius:.875rem;transition:background .2s}
+.menubtn span{display:flex;align-items:center;gap:.5rem;padding:.5rem 1rem;font-size:.75rem;font-weight:500;text-transform:uppercase;letter-spacing:.05em;transition:transform .35s var(--e-snap)}
+.menubtn svg{font-size:.875rem}
+.menubtn .w{display:none} @media (min-width:640px){.menubtn .w{display:inline}}
+@media (hover:hover) and (pointer:fine){
+  .logo:hover{transform:scale(1.04)}
+  .pnav button:hover{transform:translateY(-2px);opacity:1}
+  .menubtn:hover{background:rgba(255,255,255,.7)} .menubtn:hover span{transform:scale(1.05)}
+}
+
+/* hero */
+#home{position:relative;isolation:isolate;overflow:hidden;border-radius:0 0 2rem 2rem;background:var(--hero-to)}
+.reveal{position:absolute;inset:0}
+.reveal img{z-index:0} .reveal canvas{z-index:2}
+.reveal img,.reveal canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.reveal canvas{pointer-events:none}
+.vignette{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(to bottom,rgba(255,255,255,.35),transparent 45%,rgba(255,255,255,.35))}
+@media (max-width:1023px){.vignette{background:linear-gradient(to bottom,rgba(255,255,255,.55),rgba(255,255,255,.25) 60%,rgba(255,255,255,.4))}}
+.hero-wm{text-transform:uppercase;pointer-events:none;position:absolute;inset-inline:0;bottom:7rem;z-index:1;text-align:center;user-select:none;font-weight:700;line-height:1;font-size:min(13rem,17vw);letter-spacing:-.02em;color:#fff;white-space:nowrap;--o:.38;--ty:20px}
+.hero-grid{position:relative;z-index:20;display:flex;flex-direction:column;gap:2rem;padding-block:7rem 5rem}
+@media (min-width:1024px){.hero-grid{display:grid;min-height:100lvh;grid-template-columns:repeat(12,1fr);gap:2.5rem;padding-block:9rem 7rem}}
+.hero-l{display:flex;flex-direction:column;gap:1.75rem}
+@media (min-width:1024px){.hero-l{grid-column:span 7}}
+.hero-l h1{max-width:18ch;font-size:2.25rem;font-weight:600;line-height:.98;letter-spacing:-.02em}
+@media (min-width:640px){.hero-l h1{font-size:3rem}} @media (min-width:768px){.hero-l h1{font-size:3.75rem}}
+.hero-lead{max-width:34rem;font-size:1rem;line-height:1.55;color:rgba(17,17,17,.72)}
+.rating{display:flex;align-items:center;gap:.75rem}
+.rating .stars{display:flex;color:var(--accent);font-size:1rem}
+.rating span:last-child{font-size:.875rem;font-weight:500;color:rgba(17,17,17,.7)}
+.ctas{display:flex;flex-wrap:wrap;gap:.75rem}
+.hero-r{display:flex;flex-direction:column;align-items:flex-start;gap:2rem}
+@media (min-width:1024px){.hero-r{grid-column:span 5;align-items:flex-end}}
+.hcard{width:100%;max-width:24rem;border-radius:1.25rem;background:rgba(255,255,255,.7);padding:.5rem;box-shadow:0 1px 2px rgba(0,0,0,.05),0 0 0 1px rgba(230,229,226,.7);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);--ty:16px;--sc:.96}
+@media (min-width:1024px){.hcard{width:19rem}}
+.hcard .row{display:flex;gap:.5rem;cursor:pointer;border-radius:.875rem}
+.hcard .tile{aspect-ratio:1;width:6rem;display:grid;place-items:center;border-radius:.875rem;background:var(--navy);font-size:3.1rem;color:var(--silver);flex:none}
+.hcard .panel{flex:1;min-width:0;border-radius:.875rem;background:rgba(241,240,238,.7);padding:.75rem;display:flex;flex-direction:column;justify-content:space-between;gap:.5rem}
+.slot{position:relative;min-height:3.25rem;overflow:hidden}
+.slot .it{position:absolute;inset:0;transition:transform .55s var(--e-soft),opacity .45s}
+.slot .cap{font-size:.65rem;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:rgba(17,17,17,.45)}
+.slot .tt{max-width:9rem;font-size:.875rem;font-weight:500;line-height:1.35;margin-top:.15rem}
+.hcard .bot{display:flex;align-items:center;justify-content:space-between}
+.dots{display:flex;gap:.25rem}
+.dots i{height:.25rem;width:.375rem;border-radius:9999px;background:rgba(17,17,17,.2);transition:all .3s}
+.dots i.on{width:1rem;background:rgba(17,17,17,.7)}
+.navs{display:flex;gap:.25rem}
+.navs button{width:1.75rem;height:1.75rem;display:grid;place-items:center;border-radius:9999px;background:#fff;color:rgba(17,17,17,.7);box-shadow:0 0 0 1px var(--line);font-size:.8rem;transition:color .2s}
+.navs button:hover{color:#111}
+.navs .prev svg{transform:rotate(180deg)}
+.types{width:100%;max-width:24rem;--ty:14px;border-radius:1.25rem;background:rgba(255,255,255,.72);padding:1rem;box-shadow:0 0 0 1px rgba(230,229,226,.7);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+@media (min-width:1024px){.types{width:19rem}}
+.types .lbl{margin-bottom:.75rem;font-size:.75rem;font-weight:500;color:rgba(17,17,17,.45)}
+@media (min-width:1024px){.types .lbl{text-align:right}}
+.types ul{display:grid;grid-template-columns:repeat(3,auto);justify-content:space-between;column-gap:.75rem;row-gap:.75rem}
+.types li{display:flex;align-items:center;gap:.375rem;font-size:.75rem;color:rgba(17,17,17,.75);white-space:nowrap}
+.types li svg{font-size:.875rem;color:rgba(17,17,17,.4)}
+.hint{display:none;align-items:center;gap:.5rem;font-family:var(--font-mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:rgba(17,17,17,.6)}
+.hint::before{content:"";width:.6rem;height:.6rem;border-radius:9999px;border:1.5px solid var(--accent)}
+@media (hover:hover) and (pointer:fine) and (min-width:1024px){.hint{display:inline-flex}}
+.has-photo .reveal img{object-position:55% 65%}
+@media (min-width:1024px){.has-photo .vignette{background:linear-gradient(90deg,rgba(255,255,255,.78) 0%,rgba(255,255,255,.45) 38%,rgba(255,255,255,0) 62%),linear-gradient(to bottom,rgba(255,255,255,.2),transparent 40%,rgba(255,255,255,.35))}}
+@media (max-width:1023px){.has-photo .vignette{background:linear-gradient(to bottom,rgba(255,255,255,.72),rgba(255,255,255,.55) 60%,rgba(255,255,255,.7))}}
+.lens{position:absolute;left:0;top:0;z-index:3;width:330px;height:330px;margin:-165px 0 0 -165px;border-radius:9999px;border:1px solid rgba(255,255,255,.55);box-shadow:0 0 0 1px rgba(10,30,50,.15),inset 0 0 40px rgba(120,190,240,.15);pointer-events:none;opacity:0;transition:opacity .3s}
+.lens::before,.lens::after{content:"";position:absolute;left:50%;top:50%;background:rgba(255,255,255,.7)}
+.lens::before{width:14px;height:1px;margin-left:-7px} .lens::after{width:1px;height:14px;margin-top:-7px}
+.lens span{position:absolute;left:50%;top:-1.4rem;transform:translateX(-50%);font-family:var(--font-mono);font-size:.65rem;letter-spacing:.12em;color:#fff;background:rgba(10,30,50,.55);padding:.15rem .45rem;border-radius:.3rem}
+.lens.on{opacity:1}
+.status{position:relative;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:.75rem;border-top:1px solid rgba(17,17,17,.1);padding-block:1.25rem;font-size:.75rem;font-weight:500;text-transform:uppercase;letter-spacing:.025em;color:rgba(17,17,17,.6)}
+.status .c{display:none} @media (min-width:640px){.status .c{display:block}}
+
+/* about */
+section.white{background:var(--background)}
+.about{display:grid;grid-template-columns:1fr;align-items:center;gap:3rem;padding-block:5rem}
+@media (min-width:1024px){.about{grid-template-columns:1fr 1fr;padding-block:7rem}}
+.about-l{position:relative;min-height:14rem;display:flex;flex-direction:column;justify-content:space-between}
+@media (min-width:1024px){.about-l{min-height:20rem}}
+.about-l .big{position:absolute;left:-1rem;top:50%;transform:translateY(-50%);font-size:12rem;color:rgba(17,17,17,.07);pointer-events:none}
+@media (min-width:640px){.about-l .big{font-size:16rem}} @media (min-width:1024px){.about-l .big{left:-1.5rem;font-size:20rem}}
+.about-l .eyebrow{position:relative}
+.about-l .note{position:relative;display:flex;align-items:center;gap:.75rem;font-size:.875rem;color:rgba(17,17,17,.7);--ty:12px}
+.about-l .note svg{font-size:1.5rem;color:#111}
+.about-l .note span{max-width:16rem}
+.about-r{display:flex;flex-direction:column;gap:2.5rem}
+.about-r h2{font-size:1.5rem;font-weight:500;line-height:1.35;letter-spacing:-.01em}
+@media (min-width:640px){.about-r h2{font-size:1.875rem}}
+.about-r h2 .m{color:var(--muted)}
+.about-f{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:1.5rem;border-top:1px solid var(--line);padding-top:1.5rem;--ty:12px}
+.about-f .lbl{font-size:.875rem;color:rgba(17,17,17,.45);margin-bottom:.6rem}
+.socials{display:flex;gap:.5rem}
+.socials span{width:2.25rem;height:2.25rem;display:grid;place-items:center;border-radius:9999px;font-size:.875rem;background:var(--surface);color:rgba(17,17,17,.7)}
+.socials span:first-child{background:var(--accent);color:#fff}
+.socials svg{transition:transform .35s var(--e-snap)}
+@media (hover:hover) and (pointer:fine){.socials span:hover svg{transform:scale(1.18)}}
+
+/* create band */
+.band{display:flex;flex-direction:column;gap:.75rem;padding-block:2.5rem}
+@media (min-width:640px){.band{flex-direction:row;gap:1rem}}
+.band li{flex:1;--ty:28px}
+.band .tl{display:grid;place-items:center;height:6rem;border-radius:9999px;font-size:1.875rem;font-weight:500;transition:transform .4s var(--e-snap)}
+@media (min-width:640px){.band .tl{height:10rem;font-size:2.25rem}}
+.band .v1{background:var(--surface);color:#111}
+.band .v2{background:linear-gradient(to bottom right,var(--accent-from),var(--accent-to));color:#fff}
+.band .v3{background:var(--ink);color:#fff;font-size:2.25rem} @media (min-width:640px){.band .v3{font-size:3rem}}
+.band .v4{background:rgba(241,240,238,.6);color:rgba(17,17,17,.35)}
+@media (hover:hover) and (pointer:fine){.band .tl:hover{transform:scale(1.03)}}
+
+/* services */
+.svc{padding-block:5rem} @media (min-width:1024px){.svc{padding-block:7rem}}
+.sec-h{margin:1.25rem 0 3rem;max-width:16ch;font-size:2.25rem;font-weight:600;letter-spacing:-.02em;line-height:1.05}
+@media (min-width:640px){.sec-h{margin-bottom:3.5rem;font-size:3rem}}
+.rows li{border-top:1px solid var(--line);--ty:24px}
+.rows li:first-child{border-top:0}
+.srow{width:100%;text-align:left;display:flex;align-items:center;gap:1rem;border-radius:1.25rem;padding:1.5rem;background:rgba(241,240,238,0);transition:background .45s var(--e-soft),padding .45s var(--e-soft)}
+@media (min-width:640px){.srow{gap:1.5rem;padding-block:2rem}}
+.srow .ix{width:1.75rem;font-size:.875rem;font-weight:500;color:rgba(17,17,17,.4);font-variant-numeric:tabular-nums;flex:none}
+@media (min-width:640px){.srow .ix{width:2.5rem}}
+.srow .ti{flex:1;min-width:0;display:flex;flex-wrap:wrap;align-items:center;gap:.5rem 1rem}
+.srow h3{font-size:1.5rem;font-weight:500;letter-spacing:-.01em;line-height:1.15}
+@media (min-width:640px){.srow h3{font-size:1.875rem}} @media (min-width:768px){.srow h3{font-size:2.25rem}}
+.tag{display:inline-flex;border-radius:9999px;padding:.3rem .7rem;font-size:.7rem;font-weight:500;text-transform:uppercase;letter-spacing:.04em;background:var(--accent);color:#fff}
+.tag.soft{background:var(--surface);color:rgba(17,17,17,.6)}
+.srow p{display:none;max-width:22rem;font-size:.875rem;line-height:1.5;color:rgba(17,17,17,.6)}
+@media (min-width:1024px){.srow p{display:block}}
+.srow .bd{width:2.5rem;height:2.5rem;display:grid;place-items:center;border-radius:9999px;background:var(--ink);color:#fff;flex:none;transition:transform .4s var(--e-snap)}
+@media (min-width:640px){.srow .bd{width:3rem;height:3rem}}
+@media (hover:hover) and (pointer:fine){.srow:hover{background:rgba(241,240,238,1);padding-left:2rem;padding-right:1.25rem}.srow:hover .bd{transform:translateX(5px)}}
+.srow.main h3{font-weight:600}
+
+/* process */
+.proc{padding-block:0 5rem} @media (min-width:1024px){.proc{padding-bottom:7rem}}
+.proc-panel{border-radius:2rem;background:var(--surface);padding:3rem 1.5rem}
+@media (min-width:640px){.proc-panel{padding:4rem 2rem}} @media (min-width:768px){.proc-panel{padding-inline:4rem}}
+.proc-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:1.5rem}
+.proc-head .sec-h{margin-bottom:0}
+.proc-head p{max-width:24rem;font-size:.875rem;line-height:1.55;color:rgba(17,17,17,.6)}
+.steps{margin-top:3.5rem;display:grid;grid-template-columns:1fr;gap:0}
+@media (min-width:1024px){.steps{grid-template-columns:repeat(5,1fr);gap:1.5rem}}
+.step{position:relative;display:flex;flex-direction:column;gap:.6rem;padding:1.5rem 0;border-top:1px solid rgba(17,17,17,.12);--ty:20px}
+@media (min-width:1024px){.step{padding:1.75rem 0 0}}
+.step::before{content:"";position:absolute;top:-4px;left:0;width:7px;height:7px;border-radius:9999px;background:var(--accent)}
+.step .n{font-family:var(--font-mono);font-size:.75rem;color:rgba(17,17,17,.45)}
+.step h3{font-size:1.125rem;font-weight:600;letter-spacing:-.01em}
+.step p{font-size:.875rem;line-height:1.5;color:rgba(17,17,17,.6);max-width:30rem}
+.step .dur{margin-top:.25rem;align-self:flex-start;font-family:var(--font-mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;border:1px solid rgba(17,17,17,.15);border-radius:9999px;padding:.3rem .65rem;color:rgba(17,17,17,.65)}
+
+/* portfolio */
+.works{padding-block:2.5rem 5rem} @media (min-width:1024px){.works{padding-bottom:7rem}}
+.works .top{display:flex;flex-direction:column;align-items:center;gap:1.25rem;margin-bottom:3rem}
+.works .eyebrow.box{border:1px solid var(--line);border-radius:9999px;padding:.375rem 1rem}
+.works h2{font-size:2.25rem;font-weight:600;letter-spacing:-.02em;text-align:center}
+@media (min-width:640px){.works h2{font-size:3rem}}
+.cards{display:grid;grid-template-columns:1fr;gap:1.5rem}
+@media (min-width:768px){.cards{grid-template-columns:1fr 1fr}}
+.cards li{--ty:48px}
+.card{position:relative;display:block;width:100%;text-align:left;min-height:22rem;overflow:hidden;border-radius:2rem;background:var(--ink);padding:1.5rem;color:#fff;box-shadow:0 0 0 1px rgba(255,255,255,.05);transition:transform .5s var(--e-snap)}
+@media (min-width:640px){.card{min-height:26rem;padding:2rem}}
+.card .meta{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:flex-start;font-size:.75rem;text-transform:uppercase;letter-spacing:.025em;color:rgba(255,255,255,.45)}
+.card .meta .st{display:inline-flex;align-items:center;gap:.4rem;margin-top:.5rem;color:var(--accent-from)}
+.card .meta .st::before{content:"";width:.4rem;height:.4rem;border-radius:9999px;background:currentColor}
+.card .ub{width:2.75rem;height:2.75rem;display:grid;place-items:center;border-radius:9999px;background:rgba(255,255,255,.1);color:#fff;box-shadow:0 0 0 1px rgba(255,255,255,.15);transition:transform .45s var(--e-snap)}
+.card .ph{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;transition:transform .9s var(--e-soft)}
+.card.has-img::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(to bottom,rgba(10,10,10,.6),rgba(10,10,10,.05) 32%,rgba(10,10,10,.2) 50%,rgba(10,10,10,.9))}
+.card.has-img p{color:rgba(255,255,255,.75)} .card.has-img .meta{color:rgba(255,255,255,.75)}
+@media (hover:hover) and (pointer:fine){.card:hover .ph{transform:scale(1.04)}}
+.fcol a.val{text-decoration:underline;text-decoration-color:rgba(255,255,255,.25);text-underline-offset:3px}
+.card canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.card .bt{position:absolute;inset-inline:1.5rem;bottom:1.5rem;z-index:2}
+@media (min-width:640px){.card .bt{inset-inline:2rem;bottom:2rem}}
+.card h3{font-size:1.5rem;font-weight:500;letter-spacing:-.01em} @media (min-width:640px){.card h3{font-size:1.875rem}}
+.card p{margin-top:.5rem;max-width:28rem;font-size:.875rem;line-height:1.5;color:rgba(255,255,255,.55)}
+.card .chips{margin-top:1.25rem;display:flex;flex-wrap:wrap;gap:.5rem}
+@media (hover:hover) and (pointer:fine){.card:hover{transform:translateY(-8px) scale(1.012)}.card:hover .ub{transform:rotate(45deg) scale(1.08)}}
+
+/* stats */
+.stats{padding-block:0 5rem} @media (min-width:1024px){.stats{padding-bottom:7rem}}
+.stats-p{border-radius:2rem;background:var(--ink);padding:3rem 1.5rem;color:#fff;--ty:40px;--sc:.99}
+@media (min-width:640px){.stats-p{padding:4rem 2rem}} @media (min-width:768px){.stats-p{padding-inline:4rem}}
+.stats-p h2{margin-top:1rem;max-width:20ch;font-size:1.875rem;font-weight:500;letter-spacing:-.01em;line-height:1.15}
+@media (min-width:768px){.stats-p h2{font-size:2.25rem}}
+.sgrid{margin-top:3.5rem;display:grid;grid-template-columns:repeat(2,1fr);column-gap:2rem;row-gap:3rem}
+@media (min-width:1024px){.sgrid{grid-template-columns:repeat(4,1fr)}}
+.sgrid li{--ty:20px;min-width:0}
+.sgrid .v{font-size:2.6rem;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1}
+@media (min-width:640px){.sgrid .v{font-size:3.75rem}} @media (min-width:768px){.sgrid .v{font-size:4.5rem}}
+.sgrid .v sup{font-size:.45em;vertical-align:top;margin-left:.1em;color:var(--accent-from)}
+.sgrid .l{margin-top:.75rem;font-size:.875rem;color:rgba(255,255,255,.55)}
+
+/* footer */
+footer{position:relative;overflow:hidden;border-radius:2rem 2rem 0 0;background:var(--ink);color:#fff}
+footer .in{position:relative;z-index:10;padding-block:5rem calc(2.5rem + env(safe-area-inset-bottom,0px))}
+@media (min-width:1024px){footer .in{padding-top:6rem}}
+.fcta{display:flex;flex-direction:column;gap:2rem;border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:4rem}
+@media (min-width:1024px){.fcta{flex-direction:row;align-items:flex-end;justify-content:space-between}}
+.fcta h2{max-width:16ch;font-size:2.25rem;font-weight:600;letter-spacing:-.02em;line-height:1.02}
+@media (min-width:640px){.fcta h2{font-size:3rem}} @media (min-width:768px){.fcta h2{font-size:3.75rem}}
+.fcols{display:grid;grid-template-columns:1fr;gap:3rem;padding-block:4rem}
+@media (min-width:768px){.fcols{grid-template-columns:1fr 1fr}} @media (min-width:1024px){.fcols{grid-template-columns:1.3fr 1fr 1fr 1.2fr}}
+.fbrand .logo{color:#fff} .fbrand .logo svg{color:var(--silver);font-size:2.6rem}
+.fbrand p{margin-top:1rem;max-width:20rem;font-size:.875rem;line-height:1.55;color:rgba(255,255,255,.55)}
+.fbrand .th{margin-top:.75rem;font-size:.8rem;color:rgba(255,255,255,.4)}
+.fcol h4{font-size:.75rem;font-weight:500;text-transform:uppercase;letter-spacing:.025em;color:rgba(255,255,255,.4);margin-bottom:1rem}
+.fcol ul{display:flex;flex-direction:column;gap:.65rem;font-size:.875rem}
+.alink{display:inline-flex;opacity:.65;transition:transform .3s var(--e-snap),opacity .3s;text-align:left}
+.fcol .k{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.04em;color:rgba(255,255,255,.35)}
+.fcol .val{color:rgba(255,255,255,.8);user-select:all}
+@media (hover:hover) and (pointer:fine){.alink:hover{transform:translateX(4px);opacity:1}}
+.legal{display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:1rem;border-top:1px solid rgba(255,255,255,.1);padding-top:2rem;font-size:.75rem;color:rgba(255,255,255,.45);text-align:center}
+@media (min-width:640px){.legal{flex-direction:row;text-align:left}}
+.legal .lk{display:flex;gap:1.5rem}
+.fwm{text-transform:uppercase;position:absolute;inset-inline:0;bottom:-1.5rem;z-index:0;text-align:center;pointer-events:none;user-select:none;font-weight:700;line-height:1;font-size:min(13rem,17vw);white-space:nowrap;color:rgba(255,255,255,.05)}
+
+/* nav overlay */
+#menu{position:fixed;inset:0;z-index:115;display:flex;flex-direction:column;background:var(--ink);color:#fff;opacity:0;visibility:hidden;transition:opacity .45s var(--e-soft),visibility 0s .45s;padding-block:env(safe-area-inset-top,0px) env(safe-area-inset-bottom,0px)}
+#menu.open{opacity:1;visibility:visible;transition:opacity .45s var(--e-soft)}
+#menu .tb{display:flex;align-items:center;justify-content:space-between;padding-block:1.25rem;width:100%}
+#menu .tb .logo{color:#fff} #menu .tb .logo svg{color:var(--silver)}
+.closebtn{display:inline-flex;align-items:center;gap:.5rem;border:1px solid rgba(255,255,255,.15);border-radius:.875rem;padding:.5rem 1rem;font-size:.75rem;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:rgba(255,255,255,.7);transition:all .2s}
+.closebtn:hover{border-color:rgba(255,255,255,.4);color:#fff}
+#menu nav{flex:1;display:flex;flex-direction:column;justify-content:center;width:100%}
+#menu ul{display:flex;flex-direction:column;gap:.25rem}
+#menu li button{display:flex;align-items:baseline;gap:1rem;padding-block:.5rem;text-align:left;font-size:2.25rem;font-weight:600;letter-spacing:-.02em;opacity:0;transform:translateY(1rem);transition:all .5s ease-out}
+@media (min-width:640px){#menu li button{font-size:3.75rem}}
+#menu.open li button{opacity:1;transform:none;transition-delay:calc(var(--i) * 45ms + 80ms)}
+#menu li .n{font-size:1rem;font-weight:400;color:rgba(255,255,255,.3);font-family:var(--font-mono);transition:color .3s}
+#menu li .lb{color:rgba(255,255,255,.7);transition:color .3s}
+#menu li button:hover .n{color:var(--accent-from)} #menu li button:hover .lb{color:#fff}
+#menu .bb{display:flex;flex-direction:column;gap:.75rem;border-top:1px solid rgba(255,255,255,.1);padding-block:1.5rem;font-size:.75rem;text-transform:uppercase;letter-spacing:.025em;color:rgba(255,255,255,.45);width:100%}
+@media (min-width:640px){#menu .bb{flex-direction:row;justify-content:space-between}}
+#menu .bb button{text-align:left;text-transform:uppercase;letter-spacing:.025em;color:rgba(255,255,255,.7)}
+#menu .bb button:hover{color:#fff;text-decoration:underline}
+
+/* modal */
+#modal{position:fixed;inset:0;z-index:110;display:flex;align-items:flex-end;justify-content:center;padding:1rem;padding-bottom:max(1rem,env(safe-area-inset-bottom,0px));background:rgba(17,17,17,.3);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);opacity:0;visibility:hidden;transition:opacity .4s var(--e-soft),visibility 0s .4s}
+@media (min-width:640px){#modal{align-items:center}}
+#modal.open{opacity:1;visibility:visible;transition:opacity .4s var(--e-soft)}
+.mpanel{position:relative;width:100%;max-width:32rem;max-height:calc(100% - 1rem);overflow:auto;border-radius:2rem;background:#fff;padding:1.5rem;box-shadow:0 25px 50px -12px rgba(0,0,0,.25),0 0 0 1px var(--line);transform:translateY(28px);transition:transform .5s var(--e-soft)}
+#modal.open .mpanel{transform:none}
+@media (min-width:640px){.mpanel{padding:2rem}}
+.mclose{position:absolute;right:1rem;top:1rem;width:2.25rem;height:2.25rem;display:grid;place-items:center;border-radius:9999px;background:var(--surface);color:rgba(17,17,17,.6);transition:all .2s}
+.mclose:hover{background:var(--surface-2);color:#111}
+.mhead{margin-bottom:1.5rem;display:flex;flex-direction:column;gap:.375rem}
+.mhead .k{display:inline-flex;align-items:center;gap:.5rem;font-size:.875rem;font-weight:500;color:rgba(17,17,17,.6)}
+.mhead .k::before{content:"";width:.375rem;height:.375rem;border-radius:9999px;background:var(--accent)}
+.mhead h2{font-size:1.5rem;font-weight:600;letter-spacing:-.01em;padding-right:2.5rem}
+@media (min-width:640px){.mhead h2{font-size:1.875rem}}
+form#req{display:flex;flex-direction:column;gap:1rem}
+.f2{display:grid;grid-template-columns:1fr;gap:1rem} @media (min-width:640px){.f2{grid-template-columns:1fr 1fr}}
+label.fl{display:flex;flex-direction:column;gap:.4rem;min-width:0}
+label.fl>span{font-size:.75rem;font-weight:500;text-transform:uppercase;letter-spacing:.025em;color:rgba(17,17,17,.5)}
+.ctl{width:100%;border:1px solid var(--line);background:rgba(241,240,238,.5);border-radius:.875rem;padding:.75rem 1rem;font:inherit;font-size:.875rem;color:var(--foreground);outline:none;transition:all .2s}
+.ctl:focus{border-color:rgba(17,17,17,.3);background:#fff}
+textarea.ctl{resize:none}
+select.ctl{appearance:none;background-image:linear-gradient(45deg,transparent 50%,#888 50%),linear-gradient(135deg,#888 50%,transparent 50%);background-position:calc(100% - 1.1rem) 52%,calc(100% - .8rem) 52%;background-size:.3rem .3rem;background-repeat:no-repeat}
+.mfoot{margin-top:.5rem;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem}
+.mfoot small{font-size:.75rem;color:rgba(17,17,17,.45)}
+.ok{display:flex;flex-direction:column;align-items:center;gap:1rem;text-align:center;padding-block:2rem}
+.ok .b{width:3.5rem;height:3.5rem;display:grid;place-items:center;border-radius:9999px;background:var(--navy);color:var(--silver);font-size:1.9rem}
+.ok h2{font-size:1.5rem;font-weight:600}
+.ok p{max-width:32ch;font-size:.875rem;line-height:1.5;color:rgba(17,17,17,.6)}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="mark" viewBox="-12 -12 814 709"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path stroke-width="38" d="M10 670H780M44 430V670M10 490L291 322V10M245 35L775 375M739 310V670"/><g stroke-width="26"><path d="M83 665V492L322 349 M330 665V138L700 373V665 M108 640V505L307 387V640Z M355 640V183L674 385V640Z M440 459H578 M509 390V528"/><circle cx="509" cy="459" r="69"/></g></g></symbol>
+  <symbol id="logo" viewBox="-10 -10 810 705"><g fill="none" stroke-linecap="round" stroke-linejoin="round"><g stroke-width="17"><path pathLength="1" d="M10 670H780"/><path pathLength="1" d="M44 430V670"/><path pathLength="1" d="M10 490L291 322V10"/><path pathLength="1" d="M245 35L775 375"/><path pathLength="1" d="M739 310V670"/></g><g stroke-width="12"><path pathLength="1" d="M83 665V492L322 349"/><path pathLength="1" d="M330 665V138L700 373V665"/><path pathLength="1" d="M108 640V505L307 387V640Z"/><path pathLength="1" d="M355 640V183L674 385V640Z"/><path pathLength="1" d="M440 459H578"/><path pathLength="1" d="M509 390V528"/><circle pathLength="1" cx="509" cy="459" r="69"/></g></g></symbol>
+  <linearGradient id="silver" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="790" y2="685"><stop offset="0" stop-color="#e4e4e7"/><stop offset=".35" stop-color="#9a979e"/><stop offset=".55" stop-color="#f6f6f8"/><stop offset=".8" stop-color="#aeacb2"/><stop offset="1" stop-color="#e9e9ec"/></linearGradient>
+  <symbol id="ar" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ur" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="star" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.5l2.9 5.88 6.49.94-4.7 4.58 1.11 6.46L12 17.9l-5.8 3.05 1.1-6.46-4.69-4.58 6.49-.94L12 2.5z"/></symbol>
+  <symbol id="x" viewBox="0 0 24 24"><path d="M4 4l16 16M20 4 4 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="dot" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3.2" fill="currentColor"/></symbol>
+  <symbol id="grid" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="plan" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M3 3h18v18H3z"/><path d="M3 11h8v10M11 3v5M15 11h6M11 15h3"/></g></symbol>
+  <symbol id="chat" viewBox="0 0 24 24"><path fill="currentColor" d="M12 3C6.5 3 2 6.6 2 11c0 3.9 3.5 7.2 8.3 7.9.3.1.8.2.9.5.1.3.1.7 0 1l-.1.9c0 .3-.2 1 .9.6 1.1-.5 6-3.5 8.2-6.1C21.6 14.3 22 12.7 22 11c0-4.4-4.5-8-10-8Z"/></symbol>
+  <symbol id="fb" viewBox="0 0 24 24"><path fill="currentColor" d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 3.9v2.3H8v3h2.5V21h3Z"/></symbol>
+  <symbol id="phone" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M5 3.5h3.5l1.7 4.3-2.2 1.4a11 11 0 0 0 6.8 6.8l1.4-2.2 4.3 1.7V19a1.5 1.5 0 0 1-1.5 1.5C10.6 20.5 3.5 13.4 3.5 5A1.5 1.5 0 0 1 5 3.5Z"/></symbol>
+</svg>
+
+<div id="loader" role="status" aria-label="Loading">
+  <div class="ctr">
+    <svg class="lmark" aria-hidden="true"><use href="#logo"/></svg>
+    <div class="nm" id="nm" aria-label="RC - Design Co.,Ltd."><span class="k">R</span><span class="x">oom </span><span class="k">C</span><span class="x">reator &amp; </span><span class="g"> - </span><span class="r">Design Co.,Ltd.</span></div>
+    <div class="thl"><span class="th">รูมครีเอท : รับสร้างบ้าน</span></div>
+  </div>
+  <div class="prog">
+    <div class="track"><div class="fill" id="lfill"></div></div>
+    <div class="row"><span>Loading</span><span class="num" id="lnum">000</span></div>
+  </div>
+</div>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site rv" id="hdr" style="--d:150ms">
+  <div class="shell bar">
+    <button class="logo" data-go="home" aria-label="RC Design, back to top"><svg class="i"><use href="#mark"/></svg><span data-c="company.brand">RC - Design</span></button>
+    <nav aria-label="Primary"><ul class="pnav">
+      <li><button data-go="home" aria-current="page">Home</button></li>
+      <li><button data-go="services">Services</button></li>
+      <li><button data-go="process">Process</button></li>
+      <li><button data-go="works">Projects</button></li>
+      <li><button data-go="about">About</button></li>
+      <li><button data-modal>Contact</button></li>
+    </ul></nav>
+    <div class="hright">
+      <div class="clock"><span class="lbl">Thailand</span><span class="t" id="ct">9:41am</span><span class="sep">•</span><span class="dt" id="cd">17 October, 2026</span></div>
+      <button class="menubtn" id="openMenu" aria-label="Open menu"><span><svg class="i"><use href="#grid"/></svg><span class="w">Menu</span></span></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section id="home">
+    <div class="reveal" id="reveal" aria-hidden="true">
+      <img id="heroBase" alt="">
+      <canvas id="heroCanvas"></canvas>
+    </div>
+    <div class="vignette"></div>
+    <div class="lens" id="lens" aria-hidden="true"><span>X-RAY</span></div>
+    <div class="hero-wm rv hz" style="--d:300ms" data-c="company.brand" data-fmt="wm">RC DESIGN</div>
+
+    <div class="shell hero-grid">
+      <div class="hero-l">
+        <span class="eyebrow rv hz" style="--d:200ms;--ty:10px" data-c="hero.eyebrow">Home Builder in Thailand</span>
+        <h1 class="lr hz" id="heroH" style="--d:250ms;--st:120ms">
+          <span class="ln"><span style="--i:0">Your home,</span></span>
+          <span class="ln"><span style="--i:1">built right,</span></span>
+          <span class="ln"><span style="--i:2">from plan to keys</span></span>
+        </h1>
+        <p class="hero-lead rv hz" style="--d:550ms" data-c="hero.lead">We design and build homes on your land, sell new homes our team has finished, and renovate older houses. One contract, one team, weekly progress updates.</p>
+        <div class="rating rv hz" style="--d:650ms">
+          <span class="stars"><svg class="i"><use href="#star"/></svg><svg class="i"><use href="#star"/></svg><svg class="i"><use href="#star"/></svg><svg class="i"><use href="#star"/></svg><svg class="i"><use href="#star"/></svg></span>
+          <span data-c="hero.rating">120+ homes handed over</span>
+        </div>
+        <div class="ctas rv hz" style="--d:750ms">
+          <button class="pill dark arrow" data-modal="build">Get a Quote<span class="bd"><svg class="i ar"><use href="#ar"/></svg></span></button>
+          <button class="pill outline" data-go="works">View Projects</button>
+        </div>
+        <span class="hint rv hz" style="--d:950ms">Move over the house to X-ray its structure</span>
+      </div>
+
+      <div class="hero-r">
+        <div class="hcard rv hz" style="--d:400ms">
+          <div class="row" id="hcRow" role="button" tabindex="0" aria-label="Next service">
+            <div class="tile"><svg class="i"><use href="#mark"/></svg></div>
+            <div class="panel">
+              <div class="slot" id="slot" aria-live="polite"></div>
+              <div class="bot">
+                <div class="dots" id="dots"><i></i><i></i><i></i></div>
+                <div class="navs">
+                  <button class="prev" id="hcPrev" aria-label="Previous"><svg class="i"><use href="#ar"/></svg></button>
+                  <button id="hcNext" aria-label="Next"><svg class="i"><use href="#ar"/></svg></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="types rv hz" style="--d:550ms">
+          <div class="lbl">What we build</div>
+          <ul>
+            <li><svg class="i"><use href="#dot"/></svg>Single-storey</li>
+            <li><svg class="i"><use href="#dot"/></svg>Two-storey</li>
+            <li><svg class="i"><use href="#dot"/></svg>Modern</li>
+            <li><svg class="i"><use href="#dot"/></svg>Tropical</li>
+            <li><svg class="i"><use href="#dot"/></svg>Pool villa</li>
+            <li><svg class="i"><use href="#dot"/></svg>Extensions</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="shell"><div class="status rv hz" style="--d:900ms;--ty:0px">
+      <span>Design · Permit · Build</span>
+      <span class="c">Fixed contract, weekly site photos</span>
+      <span>Scroll to explore ↓</span>
+    </div></div>
+  </section>
+
+  <section id="about" class="white">
+    <div class="shell about">
+      <div class="about-l">
+        <svg class="i big" aria-hidden="true"><use href="#plan"/></svg>
+        <span class="eyebrow">The Company</span>
+        <div class="note rv"><svg class="i"><use href="#plan"/></svg><span>One team handles design, permits, construction, and handover.</span></div>
+      </div>
+      <div class="about-r">
+        <h2 class="wr" id="aboutH">Roomcreator and Design builds homes for families who want <span class="m">a solid structure, a clear price, and a builder who keeps them informed at every stage.</span></h2>
+        <div class="about-f rv" style="--d:200ms">
+          <div>
+            <div class="lbl">Talk to us</div>
+            <div class="socials">
+              <span title="LINE"><svg class="i"><use href="#chat"/></svg><span class="sr-only">LINE</span></span>
+              <span title="Facebook"><svg class="i"><use href="#fb"/></svg><span class="sr-only">Facebook</span></span>
+              <span title="Phone"><svg class="i"><use href="#phone"/></svg><span class="sr-only">Phone</span></span>
+            </div>
+          </div>
+          <button class="pill outline arrow" data-go="process">How We Build<span class="bd"><svg class="i ar"><use href="#ar"/></svg></span></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="white" aria-label="We build homes">
+    <ul class="shell band">
+      <li class="rv" style="--d:0ms"><div class="tl v1">We</div></li>
+      <li class="rv" style="--d:120ms"><div class="tl v2">Build</div></li>
+      <li class="rv" style="--d:240ms"><div class="tl v3"><svg class="i"><use href="#ar"/></svg></div></li>
+      <li class="rv" style="--d:360ms"><div class="tl v4">Homes</div></li>
+    </ul>
+  </section>
+
+  <section id="services" class="white">
+    <div class="shell svc">
+      <span class="eyebrow rv">Services</span>
+      <h2 class="sec-h lr" style="--d:120ms"><span class="ln"><span>What we do</span></span></h2>
+      <ul class="rows" id="svcList">
+        <li class="rv" style="--d:0ms"><button class="srow main" data-modal="build">
+          <span class="ix">01</span>
+          <span class="ti"><h3>Custom Home Construction</h3><span class="tag">Main service</span></span>
+          <p>We build on your land: structure, systems, and finishes, under one fixed contract with weekly progress reports.</p>
+          <span class="bd"><svg class="i"><use href="#ur"/></svg></span></button></li>
+        <li class="rv" style="--d:80ms"><button class="srow" data-modal="build">
+          <span class="ix">02</span>
+          <span class="ti"><h3>Design &amp; Building Permits</h3></span>
+          <p>Floor plans, 3D views, engineering drawings, and permit submission, so construction starts on paper first.</p>
+          <span class="bd"><svg class="i"><use href="#ur"/></svg></span></button></li>
+        <li class="rv" style="--d:160ms"><button class="srow" data-modal="buy">
+          <span class="ix">03</span>
+          <span class="ti"><h3>New Homes for Sale</h3><span class="tag soft">Ready to view</span></span>
+          <p>Finished homes built by our own crews. Visit the house, check the work, and move in.</p>
+          <span class="bd"><svg class="i"><use href="#ur"/></svg></span></button></li>
+        <li class="rv" style="--d:240ms"><button class="srow" data-modal="reno">
+          <span class="ix">04</span>
+          <span class="ti"><h3>Renovation</h3></span>
+          <p>Upgrade or rebuild an older house, from a new kitchen to new structure, wiring, and roof.</p>
+          <span class="bd"><svg class="i"><use href="#ur"/></svg></span></button></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="process" class="white">
+    <div class="shell proc">
+      <div class="proc-panel">
+        <div class="proc-head">
+          <div>
+            <span class="eyebrow rv">How a build works</span>
+            <h2 class="sec-h lr" style="--d:120ms"><span class="ln"><span>Five stages, one team</span></span></h2>
+          </div>
+          <p class="rv" style="--d:200ms">You sign one contract and deal with one project manager from the first site visit to the day you get the keys. Typical durations for a two-storey home are shown below.</p>
+        </div>
+        <ol class="steps" id="stepList">
+          <li class="step rv" style="--d:0ms"><span class="n">STAGE 01</span><h3>Site visit &amp; brief</h3><p>We visit your land, check access, soil, and drainage, and listen to how your family lives.</p><span class="dur">~1 week</span></li>
+          <li class="step rv" style="--d:90ms"><span class="n">STAGE 02</span><h3>Design &amp; quote</h3><p>Floor plans and 3D views, then an itemised quote with materials listed by brand and grade.</p><span class="dur">2–4 weeks</span></li>
+          <li class="step rv" style="--d:180ms"><span class="n">STAGE 03</span><h3>Contract &amp; permit</h3><p>Fixed-price contract with payments tied to finished stages. We prepare and submit the permit.</p><span class="dur">2–6 weeks</span></li>
+          <li class="step rv" style="--d:270ms"><span class="n">STAGE 04</span><h3>Construction</h3><p>Foundation, structure, roof, systems, finishes. Photos and a progress report every week.</p><span class="dur">6–10 months</span></li>
+          <li class="step rv" style="--d:360ms"><span class="n">STAGE 05</span><h3>Inspection &amp; handover</h3><p>We walk the house with you, fix every item on the list, then hand over the keys and warranty.</p><span class="dur">~2 weeks</span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section id="works" class="white">
+    <div class="shell works">
+      <div class="top">
+        <span class="eyebrow box rv">Projects</span>
+        <h2 class="lr" style="--d:120ms"><span class="ln"><span>Recent Homes</span></span></h2>
+      </div>
+      <ul class="cards" id="cards"></ul>
+    </div>
+  </section>
+
+  <section class="white" aria-label="Company figures">
+    <div class="shell stats">
+      <div class="stats-p rv">
+        <span class="eyebrow light">By the numbers</span>
+        <h2 class="lr" style="--d:120ms"><span class="ln"><span>Proof is in the houses we hand over.</span></span></h2>
+        <ul class="sgrid" id="statList">
+          <li class="rv" style="--d:0ms"><div class="v"><span class="cu" data-to="120">0</span><sup>+</sup></div><div class="l">Homes built</div></li>
+          <li class="rv" style="--d:90ms"><div class="v"><span class="cu" data-to="12">0</span></div><div class="l">Years building</div></li>
+          <li class="rv" style="--d:180ms"><div class="v"><span class="cu" data-to="24000">0</span></div><div class="l">Square metres built</div></li>
+          <li class="rv" style="--d:270ms"><div class="v"><span class="cu" data-to="10">0</span><sup>yr</sup></div><div class="l">Structural warranty</div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="contact">
+  <div class="shell in">
+    <div class="fcta">
+      <h2 class="lr" style="--st:100ms">
+        <span class="ln"><span style="--i:0">Planning to build?</span></span>
+        <span class="ln"><span style="--i:1">Let's talk about your home.</span></span>
+      </h2>
+      <button class="pill light arrow" data-modal="build">Get a Quote<span class="bd"><svg class="i ur"><use href="#ur"/></svg></span></button>
+    </div>
+    <div class="fcols">
+      <div class="fbrand">
+        <span class="logo"><svg class="i"><use href="#mark"/></svg><span data-c="company.brand">RC - Design</span></span>
+        <p data-c="company.about">Roomcreator and Design Co., Ltd. builds custom homes, sells new homes, and renovates older houses in Thailand.</p>
+        <p class="th" data-c="company.legalNameTh">บริษัท รูมครีเอเตอร์ แอนด์ ดีไซด์ จำกัด</p>
+      </div>
+      <div class="fcol"><h4>Company</h4><ul>
+        <li><button class="alink" data-go="about">About</button></li>
+        <li><button class="alink" data-go="process">Our Process</button></li>
+        <li><button class="alink" data-go="works">Projects</button></li>
+        <li><button class="alink" data-modal>Contact</button></li>
+      </ul></div>
+      <div class="fcol"><h4>Services</h4><ul>
+        <li><button class="alink" data-modal="build">Custom Homes</button></li>
+        <li><button class="alink" data-modal="build">Design &amp; Permits</button></li>
+        <li><button class="alink" data-modal="buy">Homes for Sale</button></li>
+        <li><button class="alink" data-modal="reno">Renovation</button></li>
+      </ul></div>
+      <div class="fcol"><h4>Contact</h4><ul id="contactList">
+        <li><span class="k">Phone</span><span class="val">0XX-XXX-XXXX</span></li>
+        <li><span class="k">LINE</span><span class="val">@rcdesign</span></li>
+        <li><span class="k">Email</span><span class="val">contact@rcdesign.co.th</span></li>
+        <li><span class="k">Hours</span><span class="val">Mon–Sat, 8:00–17:00</span></li>
+      </ul></div>
+    </div>
+    <div class="legal">
+      <span>© <span id="yr">2026</span> <span data-c="company.legalName">Roomcreator and Design Co., Ltd.</span> All rights reserved.</span>
+      <span class="lk"><span>Privacy</span><span>Terms</span></span>
+    </div>
+  </div>
+  <div class="fwm" aria-hidden="true" data-c="company.brand" data-fmt="wm">RC DESIGN</div>
+</footer>
+
+<div id="menu" aria-hidden="true" role="dialog" aria-label="Menu">
+  <div class="shell tb">
+    <span class="logo"><svg class="i"><use href="#mark"/></svg><span data-c="company.brand">RC - Design</span></span>
+    <button class="closebtn" id="closeMenu"><svg class="i"><use href="#x"/></svg>Close</button>
+  </div>
+  <nav class="shell"><ul>
+    <li><button style="--i:0" data-go="home"><span class="n">01</span><span class="lb">Home</span></button></li>
+    <li><button style="--i:1" data-go="services"><span class="n">02</span><span class="lb">Services</span></button></li>
+    <li><button style="--i:2" data-go="process"><span class="n">03</span><span class="lb">Process</span></button></li>
+    <li><button style="--i:3" data-go="works"><span class="n">04</span><span class="lb">Projects</span></button></li>
+    <li><button style="--i:4" data-go="about"><span class="n">05</span><span class="lb">About</span></button></li>
+    <li><button style="--i:5" data-modal><span class="n">06</span><span class="lb">Contact</span></button></li>
+  </ul></nav>
+  <div class="shell bb">
+    <span>Thailand time — <span id="mt">9:41am</span></span>
+    <button data-modal="build">Get a Quote →</button>
+  </div>
+</div>
+
+<div id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle" aria-hidden="true">
+  <div class="mpanel" id="mpanel">
+    <button class="mclose" id="mClose" aria-label="Close"><svg class="i"><use href="#x"/></svg></button>
+    <div id="mForm">
+      <div class="mhead"><span class="k">Get a quote</span><h2 id="mTitle">Tell us about your home.</h2></div>
+      <!-- To receive real enquiries, post this form to a form service (e.g. Web3Forms or Formspree) in the submit handler below. -->
+      <form id="req" novalidate>
+        <div class="f2">
+          <label class="fl"><span>Name</span><input class="ctl" id="fName" name="name" required placeholder="Your name"></label>
+          <label class="fl"><span>Phone or LINE</span><input class="ctl" id="fPhone" name="phone" required placeholder="08X-XXX-XXXX"></label>
+        </div>
+        <label class="fl"><span>Project</span>
+          <select class="ctl" id="fType" name="type">
+            <option value="build">Build a home on my land</option>
+            <option value="buy">Buy a new home</option>
+            <option value="reno">Renovate my house</option>
+            <option value="other">Not sure yet</option>
+          </select></label>
+        <label class="fl"><span>Land location</span><input class="ctl" id="fLoc" name="location" placeholder="District, province (optional)"></label>
+        <label class="fl"><span>Details</span><textarea class="ctl" id="fMsg" name="message" rows="4" required placeholder="Size of house, number of bedrooms, budget, and when you want to start."></textarea></label>
+        <div class="mfoot">
+          <small>We reply within one business day.</small>
+          <button type="submit" class="pill dark arrow" id="sendBtn"><span id="sendLbl">Send request</span><span class="bd"><svg class="i ur"><use href="#ur"/></svg></span></button>
+        </div>
+      </form>
+    </div>
+    <div class="ok" id="mOk" hidden>
+      <div class="b"><svg class="i"><use href="#mark"/></svg></div>
+      <h2>Request received</h2>
+      <p>Thank you. Our team will contact you within one business day.</p>
+      <button class="pill dark" id="okClose">Close</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+/* ---------- Config: put your real photos here to replace the drawn hero ---------- */
+const HERO_IMAGES = { base: 'img/hero.jpg', reveal: null };
+let SHOW_STRUCT = true; // structure lines are traced for img/hero.jpg only
+
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const html = document.documentElement;
+
+/* adaptive grid scale-up */
+function applyAdaptiveGrid(){
+  const FONT_BASE=16, baseWidth=1920, coef=0.6666, w=innerWidth;
+  const size = FONT_BASE - (FONT_BASE * ((((baseWidth-w)/baseWidth)*100) * coef)) / 100;
+  if (size > FONT_BASE) html.style.fontSize = size + 'px'; else html.style.removeProperty('font-size');
+}
+applyAdaptiveGrid(); addEventListener('resize', applyAdaptiveGrid);
+
+/* Lenis (optional; page works without it) */
+let lenis = null;
+try { history.scrollRestoration = 'manual'; } catch(e){}
+window.scrollTo(0,0);
+import('https://unpkg.com/lenis@1.1.13/dist/lenis.mjs').then(m => {
+  lenis = new m.default({ smoothWheel:true });
+  if (locks) lenis.stop();
+  const raf = t => { lenis.raf(t); requestAnimationFrame(raf); };
+  requestAnimationFrame(raf);
+}).catch(()=>{});
+
+let locks = 0;
+function stopScroll(){ locks++; lenis?.stop(); Object.assign(html.style,{position:'relative',overflow:'hidden',height:'100%'}); }
+function startScroll(){ locks=Math.max(0,locks-1); if(locks) return; lenis?.start(); ['position','overflow','height'].forEach(p=>html.style.removeProperty(p)); }
+function scrollToId(id){
+  const el = document.getElementById(id); if(!el) return;
+  setTimeout(()=>{
+    const top = el.getBoundingClientRect().top + pageYOffset;
+    if (lenis) lenis.scrollTo(top, { duration:1.2 }); else window.scrollTo({ top, behavior: reduce?'auto':'smooth' });
+  },50);
+}
+
+/* ---------- Loader ---------- */
+let ready = false;
+const loader = $('#loader');
+stopScroll();
+(function runLoader(){
+  const FILL_MS = reduce ? 300 : 3700, t0 = performance.now();
+  // name sequence: full name -> collapses to "RC - Design Co.,Ltd." -> Thai line drops in
+  const nm = $('#nm'), xs = $$('.x', nm), g = $('.g', nm), thl = $('.thl');
+  const natural = el => { const w = el.style.width; el.style.width = 'auto'; const r = el.getBoundingClientRect().width; el.style.width = w; return r; };
+  const shorten = () => {
+    xs.forEach(x => x.style.width = natural(x) + 'px'); const gw = natural(g); void nm.offsetWidth;
+    requestAnimationFrame(() => { nm.classList.add('short'); xs.forEach(x => x.style.width = '0px'); g.style.width = gw + 'px'; });
+  };
+  if (reduce) { nm.classList.add('show'); shorten(); thl.classList.add('show'); }
+  else {
+    setTimeout(() => nm.classList.add('show'), 350);
+    setTimeout(shorten, 1450);
+    setTimeout(() => thl.classList.add('show'), 2250);
+  }
+  const ease = t => t<.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2;
+  const fill = $('#lfill'), num = $('#lnum');
+  function step(now){
+    const t = Math.min((now-t0)/FILL_MS,1), p = Math.round(ease(t)*100);
+    fill.style.width = p+'%'; num.textContent = String(p).padStart(3,'0');
+    if (t<1) requestAnimationFrame(step); else setTimeout(exit,120);
+  }
+  requestAnimationFrame(step);
+  function exit(){
+    loader.classList.add('out');
+    let done=false; const fin=()=>{ if(done) return; done=true; loader.remove(); ready=true; startScroll(); onReady(); };
+    loader.addEventListener('transitionend', e=>{ if(e.target===loader) fin(); });
+    setTimeout(fin, 900);
+  }
+})();
+
+function onReady(){
+  setTimeout(()=>window.__xrayScan?.(), 650);
+  $('#hdr').classList.add('in');
+  $$('.hz').forEach(el=>el.classList.add('in'));
+}
+
+/* ---------- Content (edited in Pages CMS: content/site.json + content/projects.json) ---------- */
+const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const imgPath = v => { v = String(v || '').trim(); return /^(https?:|data:)/.test(v) ? v : v.replace(/^\/+/, ''); };
+async function getJSON(url){
+  const ctl = new AbortController(), to = setTimeout(()=>ctl.abort(), 4000);
+  try { const r = await fetch(url, { cache:'no-cache', signal:ctl.signal }); if(!r.ok) throw 0; return await r.json(); }
+  catch(e){ return null; } finally { clearTimeout(to); }
+}
+const [SITE, PROJ] = await Promise.all([getJSON('content/site.json'), getJSON('content/projects.json')]);
+const get = (o, path) => path.split('.').reduce((a,k)=>a?.[k], o);
+function renderContent(){
+  if(SITE){
+    $$('[data-c]').forEach(el=>{ let v=get(SITE, el.dataset.c); if(typeof v==='string' && v.trim()){ if(el.dataset.fmt==='wm') v=v.replace(/\s*[-–:]\s*/g,' '); el.textContent=v; } });
+    const c = SITE.company || {}, h = SITE.hero || {};
+    if(c.brand) document.title = `${c.brand.replace(/\s*-\s*/g,' ')} Home Builder`;
+    if(Array.isArray(h.headline) && h.headline.length){
+      $('#heroH').innerHTML = h.headline.filter(Boolean).map((l,i)=>`<span class="ln"><span style="--i:${i}">${esc(l)}</span></span>`).join('');
+    }
+    if(h.image !== undefined){ HERO_IMAGES.base = imgPath(h.image) || null; }
+    SHOW_STRUCT = h.structureLines !== false;
+    if(Array.isArray(SITE.services) && SITE.services.length){
+      $('#svcList').innerHTML = SITE.services.map((v,i)=>`<li class="rv" style="--d:${i*80}ms"><button class="srow${i===0?' main':''}" data-modal="${esc(v.type||'build')}">
+        <span class="ix">${String(i+1).padStart(2,'0')}</span>
+        <span class="ti"><h3>${esc(v.title)}</h3>${v.tag?`<span class="tag${i===0?'':' soft'}">${esc(v.tag)}</span>`:''}</span>
+        <p>${esc(v.desc)}</p><span class="bd"><svg class="i"><use href="#ur"/></svg></span></button></li>`).join('');
+    }
+    if(Array.isArray(SITE.process) && SITE.process.length){
+      $('#stepList').innerHTML = SITE.process.map((v,i)=>`<li class="step rv" style="--d:${i*90}ms"><span class="n">STAGE ${String(i+1).padStart(2,'0')}</span><h3>${esc(v.title)}</h3><p>${esc(v.desc)}</p>${v.duration?`<span class="dur">${esc(v.duration)}</span>`:''}</li>`).join('');
+    }
+    if(Array.isArray(SITE.stats) && SITE.stats.length){
+      $('#statList').innerHTML = SITE.stats.map((v,i)=>`<li class="rv" style="--d:${i*90}ms"><div class="v"><span class="cu" data-to="${Number(v.value)||0}">0</span>${v.suffix?`<sup>${esc(v.suffix)}</sup>`:''}</div><div class="l">${esc(v.label)}</div></li>`).join('');
+    }
+    const rows = [['Phone',c.phone,c.phone&&('tel:'+c.phone.replace(/[^\d+]/g,''))],['LINE',c.line,null],['Email',c.email,c.email&&('mailto:'+c.email)],['Hours',c.hours,null],['Address',c.address,null],['Facebook',c.facebook&&'Facebook page',c.facebook]]
+      .filter(r=>r[1]);
+    if(rows.length) $('#contactList').innerHTML = rows.map(([k,v,href])=>`<li><span class="k">${k}</span>${href&&/^https?:/.test(href)?`<a class="val" href="${esc(href)}" target="_blank" rel="noopener">${esc(v)}</a>`:`<span class="val">${esc(v)}</span>`}</li>`).join('');
+  }
+  $('#yr').textContent = new Date().getFullYear();
+}
+renderContent();
+
+/* ---------- Reveals on scroll ---------- */
+$$('.wr').forEach(h=>{
+  let i=0;
+  const walk = node => [...node.childNodes].forEach(n=>{
+    if(n.nodeType===3){
+      const frag=document.createDocumentFragment();
+      n.textContent.split(/(\s+)/).forEach(part=>{
+        if(!part) return;
+        if(/^\s+$/.test(part)) frag.append(part);
+        else { const s=document.createElement('span'); s.className='w'; s.style.setProperty('--i',i++); s.textContent=part; frag.append(s); }
+      });
+      n.replaceWith(frag);
+    } else if(n.nodeType===1) walk(n);
+  });
+  walk(h);
+});
+const io = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} }),{ threshold:.15, rootMargin:'0px 0px -5% 0px' });
+function observeReveals(){ $$('.rv:not(.hz):not(#hdr), .lr:not(.hz), .wr').forEach(el=>io.observe(el)); }
+
+/* ---------- Clock (Thailand) ---------- */
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+function tick(){
+  const parts = Object.fromEntries(new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Bangkok',hour:'numeric',minute:'2-digit',day:'numeric',month:'numeric',year:'numeric',hourCycle:'h23'}).formatToParts(new Date()).map(p=>[p.type,p.value]));
+  const h=+parts.hour, time=`${h%12||12}:${parts.minute}${h<12?'am':'pm'}`;
+  $('#ct').textContent=time; $('#mt').textContent=time;
+  $('#cd').textContent=`${+parts.day} ${MONTHS[+parts.month-1]}, ${parts.year}`;
+}
+tick(); setInterval(tick,1000);
+
+/* ---------- Hero card carousel ---------- */
+const ITEMS=[
+  {cap:'Custom home build', title:'Built on your land.'},
+  {cap:'New homes for sale', title:'Ready to move in.'},
+  {cap:'Renovation', title:'Old house, new life.'}
+];
+let ci=0; const slot=$('#slot'), dots=$$('#dots i');
+function mkItem(it){ const d=document.createElement('div'); d.className='it'; d.innerHTML=`<div class="cap">${it.cap}</div><div class="tt">${it.title}</div>`; return d; }
+slot.append(mkItem(ITEMS[0])); dots[0].classList.add('on');
+function go(step){
+  const n=ITEMS.length; ci=(ci+step+n)%n;
+  const old=slot.lastElementChild, nu=mkItem(ITEMS[ci]);
+  nu.style.transform=`translateY(${step>0?14:-14}px)`; nu.style.opacity='0';
+  slot.append(nu);
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    nu.style.transform='none'; nu.style.opacity='1';
+    if(old){ old.style.transform=`translateY(${step>0?-14:14}px)`; old.style.opacity='0'; setTimeout(()=>old.remove(),500); }
+  }));
+  dots.forEach((d,i)=>d.classList.toggle('on',i===ci));
+}
+$('#hcRow').addEventListener('click',()=>go(1));
+$('#hcRow').addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(1);} });
+$('#hcNext').addEventListener('click',e=>{ e.stopPropagation(); go(1); });
+$('#hcPrev').addEventListener('click',e=>{ e.stopPropagation(); go(-1); });
+
+/* ---------- Drawn house scene (finished home / blueprint) ---------- */
+function drawScene(ctx,w,h,mode,cssW){
+  const plan = mode==='plan', k = w/cssW;
+  const desk = cssW >= 1024;
+  const cx = desk ? w*.68 : w*.5, gy = desk ? h*.84 : h*.94;
+  const W = desk ? Math.min(w*.5,(gy-h*.2)/7.2*14) : Math.min(w*.98,(h*.36)/7.2*14);
+  const s = W/14, X = m => cx-7*s+(m+.4)*s, Y = m => gy-m*s;
+  const R = (x1,y1,x2,y2) => [X(x1),Y(y2),X(x2)-X(x1),Y(y1)-Y(y2)];
+  ctx.save(); ctx.clearRect(0,0,w,h);
+
+  if(!plan){
+    let g=ctx.createLinearGradient(0,0,0,gy); g.addColorStop(0,'#d5d9dc'); g.addColorStop(1,'#ecebe7');
+    ctx.fillStyle=g; ctx.fillRect(0,0,w,h);
+    // hills
+    ctx.fillStyle='rgba(150,160,150,.25)'; ctx.beginPath(); ctx.moveTo(0,gy);
+    for(let x=0;x<=w;x+=w/40) ctx.lineTo(x, gy - s*(2.2+1.2*Math.sin(x/w*5.5+1)+.6*Math.sin(x/w*13)));
+    ctx.lineTo(w,gy); ctx.fill();
+    // ground
+    g=ctx.createLinearGradient(0,gy,0,h); g.addColorStop(0,'#bfc2b1'); g.addColorStop(1,'#a9ad99');
+    ctx.fillStyle=g; ctx.fillRect(0,gy,w,h-gy);
+    ctx.fillStyle='#d6d3cb'; ctx.beginPath(); ctx.moveTo(X(10.2),gy); ctx.lineTo(X(13.6),gy); ctx.lineTo(X(15.5),h); ctx.lineTo(X(9.4),h); ctx.fill();
+    // back trees
+    const tree=(m,r,c1,c2)=>{ ctx.fillStyle='#6d6250'; ctx.fillRect(X(m)-.12*s,Y(r*1.4),.24*s,r*1.4*s);
+      [[0,1.9*r,r],[-.55*r,1.5*r,.75*r],[.6*r,1.55*r,.8*r]].forEach(([dx,dy,rr],i)=>{ ctx.fillStyle=i?c2:c1; ctx.beginPath(); ctx.arc(X(m+dx),Y(dy),rr*s,0,7); ctx.fill(); }); };
+    tree(-2.6,2.1,'#8d9a80','#7f8d73'); tree(15.6,2.5,'#87957a','#77866c');
+    // ground shadow
+    ctx.fillStyle='rgba(40,40,30,.16)'; ctx.fillRect(X(-.6),gy,X(13.9)-X(-.6),.35*s);
+    // ground floor
+    g=ctx.createLinearGradient(X(0),0,X(10),0); g.addColorStop(0,'#f2f0eb'); g.addColorStop(1,'#e4e1da');
+    ctx.fillStyle=g; ctx.fillRect(...R(0,0,10,3.2));
+    // carport under cantilever
+    ctx.fillStyle='rgba(60,55,45,.22)'; ctx.fillRect(...R(10,0,13,3.2));
+    ctx.fillStyle='#e6e3dc'; ctx.fillRect(...R(12.65,0,12.9,3.2));
+    // mid slab
+    ctx.fillStyle='#dcd8d0'; ctx.fillRect(...R(-.4,3.2,10.4,3.5));
+    // upper box
+    g=ctx.createLinearGradient(X(3),0,X(13),0); g.addColorStop(0,'#f7f5f1'); g.addColorStop(1,'#ebe8e2');
+    ctx.fillStyle=g; ctx.fillRect(...R(3,3.5,13,6.4));
+    ctx.fillStyle='rgba(0,0,0,.08)'; ctx.fillRect(...R(10.4,3.5,13,3.62));
+    // wood panel
+    ctx.fillStyle='#9a6a43'; ctx.fillRect(...R(3,3.5,6.2,6.4));
+    ctx.strokeStyle='rgba(60,35,20,.35)'; ctx.lineWidth=Math.max(1,k);
+    for(let m=3.18;m<6.2;m+=.18){ ctx.beginPath(); ctx.moveTo(X(m),Y(3.5)); ctx.lineTo(X(m),Y(6.4)); ctx.stroke(); }
+    // roof slab + shadow
+    ctx.fillStyle='#e9e6e0'; ctx.fillRect(...R(2.6,6.4,13.6,6.78));
+    g=ctx.createLinearGradient(0,Y(6.4),0,Y(5.9)); g.addColorStop(0,'rgba(0,0,0,.14)'); g.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=g; ctx.fillRect(...R(3,5.9,13,6.4));
+    g=ctx.createLinearGradient(0,Y(3.2),0,Y(2.8)); g.addColorStop(0,'rgba(0,0,0,.12)'); g.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=g; ctx.fillRect(...R(0,2.8,10,3.2));
+    // glass
+    const glass=(x1,y1,x2,y2,cols)=>{ const r=R(x1,y1,x2,y2);
+      let gg=ctx.createLinearGradient(0,r[1],0,r[1]+r[3]); gg.addColorStop(0,'#46535d'); gg.addColorStop(.6,'#5c6a73'); gg.addColorStop(1,'#7c6a58');
+      ctx.fillStyle=gg; ctx.fillRect(...r);
+      gg=ctx.createLinearGradient(0,r[1]+r[3]*.4,0,r[1]+r[3]); gg.addColorStop(0,'rgba(255,190,130,0)'); gg.addColorStop(1,'rgba(255,190,130,.35)');
+      ctx.fillStyle=gg; ctx.fillRect(...r);
+      ctx.save(); ctx.beginPath(); ctx.rect(...r); ctx.clip(); ctx.fillStyle='rgba(255,255,255,.12)';
+      ctx.beginPath(); ctx.moveTo(r[0]+r[2]*.15,r[1]); ctx.lineTo(r[0]+r[2]*.42,r[1]); ctx.lineTo(r[0]+r[2]*.12,r[1]+r[3]); ctx.lineTo(r[0]-r[2]*.15,r[1]+r[3]); ctx.fill(); ctx.restore();
+      ctx.strokeStyle='#2b2b2b'; ctx.lineWidth=Math.max(1.5,.07*s); ctx.strokeRect(...r);
+      for(let i=1;i<cols;i++){ const xx=r[0]+r[2]*i/cols; ctx.beginPath(); ctx.moveTo(xx,r[1]); ctx.lineTo(xx,r[1]+r[3]); ctx.stroke(); } };
+    glass(4.2,.15,9.4,2.85,4); glass(6.8,3.95,12.4,5.95,4);
+    // door
+    ctx.fillStyle='#7d5233'; ctx.fillRect(...R(1,0,2.2,2.5));
+    ctx.fillStyle='#d9c4a8'; ctx.fillRect(X(1.95),Y(1.4),.06*s,.5*s);
+    // shrubs
+    ctx.fillStyle='#7a8a6c'; [[.4,.35],[3.2,.4],[9.8,.32]].forEach(([m,r])=>{ ctx.beginPath(); ctx.ellipse(X(m),gy,r*2*s,r*s,0,Math.PI,0); ctx.fill(); });
+    ctx.fillStyle='#d8d4cb'; ctx.fillRect(...R(.8,-.02,2.4,.12));
+  } else {
+    ctx.fillStyle='#1e4466'; ctx.fillRect(0,0,w,h);
+    const ox=X(0);
+    for(let gx=ox%(s*.5); gx<w; gx+=s*.5){ const major=Math.abs(((gx-ox)/s)%1)<.01||Math.abs(((gx-ox)/s)%1)>.99; ctx.fillStyle=major?'rgba(255,255,255,.1)':'rgba(255,255,255,.045)'; ctx.fillRect(gx,0,Math.max(1,k*.8),h); }
+    for(let gyy=gy%(s*.5); gyy<h; gyy+=s*.5){ const major=Math.abs(((gy-gyy)/s)%1)<.01||Math.abs(((gy-gyy)/s)%1)>.99; ctx.fillStyle=major?'rgba(255,255,255,.1)':'rgba(255,255,255,.045)'; ctx.fillRect(0,gyy,w,Math.max(1,k*.8)); }
+    const lw=Math.max(1.2,1.4*k);
+    ctx.strokeStyle='rgba(255,255,255,.92)'; ctx.lineWidth=lw;
+    const sr=(...a)=>ctx.strokeRect(...R(...a));
+    sr(0,0,10,3.2); sr(-.4,3.2,10.4,3.5); sr(3,3.5,13,6.4); sr(2.6,6.4,13.6,6.78); sr(12.65,0,12.9,3.2); sr(3,3.5,6.2,6.4);
+    ctx.lineWidth=Math.max(1,.7*k); ctx.strokeStyle='rgba(255,255,255,.45)';
+    for(let m=3.36;m<6.2;m+=.36){ ctx.beginPath(); ctx.moveTo(X(m),Y(3.5)); ctx.lineTo(X(m),Y(6.4)); ctx.stroke(); }
+    const win=(x1,y1,x2,y2,cols)=>{ ctx.strokeStyle='rgba(255,255,255,.92)'; ctx.lineWidth=lw; sr(x1,y1,x2,y2);
+      ctx.lineWidth=Math.max(1,.8*k); for(let i=1;i<cols;i++){ const m=x1+(x2-x1)*i/cols; ctx.beginPath(); ctx.moveTo(X(m),Y(y1)); ctx.lineTo(X(m),Y(y2)); ctx.stroke(); }
+      ctx.strokeStyle='rgba(255,255,255,.3)'; for(let i=0;i<cols;i++){ const a=x1+(x2-x1)*i/cols, b=x1+(x2-x1)*(i+1)/cols; ctx.beginPath(); ctx.moveTo(X(a+.25),Y(y1+.4)); ctx.lineTo(X(b-.25),Y(y2-.4)); ctx.stroke(); } };
+    win(4.2,.15,9.4,2.85,4); win(6.8,3.95,12.4,5.95,4);
+    ctx.strokeStyle='rgba(255,255,255,.92)'; ctx.lineWidth=lw; sr(1,0,2.2,2.5);
+    ctx.setLineDash([4*k,4*k]); ctx.beginPath(); ctx.moveTo(X(1),Y(0)); ctx.lineTo(X(2.2),Y(1.25)); ctx.lineTo(X(1),Y(2.5)); ctx.stroke(); ctx.setLineDash([]);
+    // ground line
+    ctx.lineWidth=Math.max(2,2.6*k); ctx.beginPath(); ctx.moveTo(0,gy); ctx.lineTo(w,gy); ctx.stroke();
+    ctx.strokeStyle='rgba(255,255,255,.35)'; ctx.lineWidth=Math.max(1,k);
+    for(let x=0;x<w;x+=10*k){ ctx.beginPath(); ctx.moveTo(x,gy+2*k); ctx.lineTo(x-6*k,gy+8*k); ctx.stroke(); }
+    // trees dashed
+    ctx.setLineDash([5*k,5*k]); ctx.strokeStyle='rgba(255,255,255,.4)';
+    [[-2.6,2.1],[15.6,2.5]].forEach(([m,r])=>{ ctx.beginPath(); ctx.arc(X(m),Y(1.9*r),r*s,0,7); ctx.stroke(); ctx.beginPath(); ctx.moveTo(X(m),Y(0)); ctx.lineTo(X(m),Y(1.9*r-r)); ctx.stroke(); });
+    ctx.setLineDash([]);
+    // text
+    const fs=Math.max(10*k,s*.32);
+    ctx.font=`500 ${fs}px "IBM Plex Mono", monospace`; ctx.fillStyle='rgba(255,255,255,.85)'; ctx.textBaseline='middle';
+    // level markers
+    [[0,'±0.00 FFL'],[3.2,'+3.20'],[6.4,'+6.40'],[6.78,'+6.78 ROOF']].forEach(([lv,t])=>{
+      ctx.strokeStyle='rgba(255,255,255,.55)'; ctx.lineWidth=Math.max(1,k); ctx.setLineDash([3*k,3*k]);
+      ctx.beginPath(); ctx.moveTo(X(-2.2),Y(lv)); ctx.lineTo(X(-.5),Y(lv)); ctx.stroke(); ctx.setLineDash([]);
+      ctx.beginPath(); ctx.moveTo(X(-1.6),Y(lv)); ctx.lineTo(X(-1.4),Y(lv)-.22*s); ctx.lineTo(X(-1.8),Y(lv)-.22*s); ctx.closePath(); ctx.stroke();
+      ctx.textAlign='right'; ctx.fillText(t,X(-2.35),Y(lv)); });
+    // dimension line above
+    const dy=Y(7.6), tickL=.18*s; ctx.strokeStyle='rgba(255,255,255,.75)'; ctx.lineWidth=Math.max(1,k);
+    const dim=(a,b,t)=>{ ctx.beginPath(); ctx.moveTo(X(a),dy); ctx.lineTo(X(b),dy); ctx.stroke();
+      [a,b].forEach(m=>{ ctx.beginPath(); ctx.moveTo(X(m)-tickL/2,dy+tickL/2); ctx.lineTo(X(m)+tickL/2,dy-tickL/2); ctx.stroke(); ctx.beginPath(); ctx.moveTo(X(m),dy-tickL); ctx.lineTo(X(m),dy+tickL*2.2); ctx.stroke(); });
+      ctx.textAlign='center'; ctx.fillText(t,(X(a)+X(b))/2,dy-fs*.75); };
+    dim(-.4,10.4,'10.80'); dim(10.4,13.6,'3.20');
+    ctx.textAlign='left'; ctx.font=`600 ${fs*1.05}px "IBM Plex Mono", monospace`;
+    ctx.fillText('FRONT ELEVATION  ·  SCALE 1:100', X(-.4), Y(8.7));
+    ctx.font=`500 ${fs*.85}px "IBM Plex Mono", monospace`; ctx.fillStyle='rgba(255,255,255,.55)';
+    ctx.fillText('RC DESIGN  ·  DWG A-201  ·  REV 02', X(-.4), Y(8.7)+fs*1.5);
+  }
+  ctx.restore();
+}
+
+/* ---------- Liquid reveal ---------- */
+(function liquid(){
+  const box=$('#reveal'), lens=$('#lens'), img=$('#heroBase'), canvas=$('#heroCanvas'), ctx=canvas.getContext('2d');
+  const brushRadius=165, decay=.016, fadeFrames=120;
+  let dpr=Math.min(devicePixelRatio||1,2), W=0, H=0, cssW=0, cover=document.createElement('canvas'), brush=document.createElement('canvas');
+  let built=false, scanning=false, wantScan=false;
+  let radius=0, diam=0, points=[], last=null, idle=fadeFrames+1, running=false, baseImg=null, revImg=null;
+
+  const loadImg = src => new Promise((res,rej)=>{ const i=new Image(); i.onload=()=>res(i); i.onerror=rej; i.src=src; });
+  const coverDraw=(c,im,w,h)=>{ const sc=Math.max(w/im.naturalWidth,h/im.naturalHeight), iw=im.naturalWidth*sc, ih=im.naturalHeight*sc; c.drawImage(im,(w-iw)/2,(h-ih)/2,iw,ih); };
+
+  function build(){
+    if(HERO_IMAGES.base && !baseImg) return; // wait for the photo
+    const r=box.getBoundingClientRect(); if(!r.width||!r.height) return;
+    dpr=Math.min(devicePixelRatio||1,2); cssW=r.width;
+    W=canvas.width=Math.round(r.width*dpr); H=canvas.height=Math.round(r.height*dpr);
+    cover.width=W; cover.height=H; const cc=cover.getContext('2d');
+    if(revImg) coverDraw(cc,revImg,W,H); else if(baseImg) xrayFrom(cc,baseImg); else drawScene(cc,W,H,'plan',cssW);
+    if(!baseImg){
+      const bc=document.createElement('canvas'); bc.width=W; bc.height=H;
+      drawScene(bc.getContext('2d'),W,H,'photo',cssW);
+      img.src=bc.toDataURL('image/jpeg',.9);
+    }
+    const rc=Math.min(brushRadius, Math.max(90, cssW*.26));
+    radius=rc*dpr; diam=Math.ceil(radius*2); brush.width=brush.height=diam;
+    Object.assign(lens.style,{width:rc*2+'px',height:rc*2+'px',margin:`${-rc}px 0 0 ${-rc}px`});
+    built=true;
+  }
+  function xrayFrom(cc,im){
+    const pos=getComputedStyle(img).objectPosition.split(' ').map(v=>parseFloat(v)/100);
+    const nw=im.naturalWidth, nh=im.naturalHeight, s=Math.max(W/nw,H/nh);
+    const ox=(W-nw*s)*(isNaN(pos[0])?.5:pos[0]), oy=(H-nh*s)*(isNaN(pos[1])?.5:pos[1]);
+    const u=nw/1536, P=(x,y)=>[ox+x*u*s, oy+y*u*s], L=v=>v*u*s, k=W/cssW;
+    // 1. X-ray film tone of the real photo + traced edges
+    const sc=Math.min(1,1400/W), w=Math.round(W*sc), h=Math.round(H*sc);
+    const t=document.createElement('canvas'); t.width=w; t.height=h;
+    const tc=t.getContext('2d',{willReadFrequently:true});
+    tc.drawImage(im,ox*sc,oy*sc,nw*s*sc,nh*s*sc);
+    const d=tc.getImageData(0,0,w,h).data, g=new Float32Array(w*h);
+    for(let i=0;i<w*h;i++) g[i]=d[i*4]*.299+d[i*4+1]*.587+d[i*4+2]*.114;
+    const out=tc.createImageData(w,h), o=out.data;
+    for(let y=0;y<h;y++) for(let x=0;x<w;x++){
+      const i=y*w+x; let m=0;
+      if(x>0&&y>0&&x<w-1&&y<h-1){
+        const gx=-g[i-w-1]-2*g[i-1]-g[i+w-1]+g[i-w+1]+2*g[i+1]+g[i+w+1];
+        const gy=-g[i-w-1]-2*g[i-w]-g[i-w+1]+g[i+w-1]+2*g[i+w]+g[i+w+1];
+        m=Math.hypot(gx,gy);
+      }
+      const tt=Math.pow(g[i]/255,1.35), e=Math.min(Math.max((m-70)/220,0),1)*.75, j=i*4;
+      let r=10+(118-10)*tt, gg=26+(178-26)*tt, bb=44+(222-44)*tt;
+      o[j]=r+(225-r)*e; o[j+1]=gg+(240-gg)*e; o[j+2]=bb+(255-bb)*e; o[j+3]=255;
+    }
+    tc.putImageData(out,0,0);
+    cc.drawImage(t,0,0,W,H);
+    // faint drafting grid
+    const step=24*k;
+    for(let x=0,n=0;x<W;x+=step,n++){ cc.fillStyle=n%5?'rgba(160,210,255,.04)':'rgba(160,210,255,.09)'; cc.fillRect(x,0,Math.max(1,k*.8),H); }
+    for(let y=0,n=0;y<H;y+=step,n++){ cc.fillStyle=n%5?'rgba(160,210,255,.04)':'rgba(160,210,255,.09)'; cc.fillRect(0,y,W,Math.max(1,k*.8)); }
+
+    if(!SHOW_STRUCT) return;
+    // 2. structure drawn over the house (image pixel coordinates of hero.jpg)
+    const DRAFT='rgba(228,242,255,.92)', STR='#f2a66c', SFILL='rgba(207,128,71,.2)';
+    const lw=Math.max(1,1.3*k);
+    cc.lineCap='round'; cc.lineJoin='round';
+    const box=(x1,y1,x2,y2,dash)=>{ const [a,b]=P(x1,y1),[c,e]=P(x2,y2); cc.setLineDash(dash?[5*k,4*k]:[]); cc.strokeRect(a,b,c-a,e-b); cc.setLineDash([]); };
+    const fillBox=(x1,y1,x2,y2)=>{ const [a,b]=P(x1,y1),[c,e]=P(x2,y2); cc.fillRect(a,b,c-a,e-b); };
+    const line=(pts,dash)=>{ cc.setLineDash(dash?[5*k,4*k]:[]); cc.beginPath(); pts.forEach(([x,y],i)=>{ const [a,b]=P(x,y); i?cc.lineTo(a,b):cc.moveTo(a,b); }); cc.stroke(); cc.setLineDash([]); };
+
+    // roof truss: bottom chord on the eave line, top chord on the roof outline
+    const top=x=> x<695 ? 420+(293-420)*(x-255)/(695-255) : x<935 ? 293+(280-293)*(x-695)/240 : 280+(395-280)*(x-935)/(1295-935);
+    const bot=x=> 420+(398-420)*(x-255)/(1295-255);
+    cc.strokeStyle=STR; cc.lineWidth=lw*1.6;
+    line([[255,420],[695,293],[935,280],[1295,395]]); line([[255,420],[1295,398]]);
+    cc.lineWidth=lw*.9; cc.strokeStyle='rgba(242,166,108,.75)';
+    const N=18, xs=[...Array(N+1)].map((_,i)=>255+(1295-255)*i/N);
+    xs.forEach((x,i)=>{ if(i>0&&i<N) line([[x,bot(x)],[x,top(x)]]); if(i<N){ const x2=xs[i+1]; i%2? line([[x,top(x)],[x2,bot(x2)]]) : line([[x,bot(x)],[x2,top(x2)]]); } });
+    // purlins hinted on the roof plane
+    cc.strokeStyle='rgba(228,242,255,.22)'; cc.lineWidth=Math.max(1,.8*k);
+    for(let f=.18;f<1;f+=.18) line([[255+(695-255)*f,420+(293-420)*f],[1295-(1295-935)*f,395-(395-280)*f]],true);
+
+    // beams
+    cc.fillStyle=SFILL; cc.strokeStyle=STR; cc.lineWidth=lw;
+    [[75,433,690,478],[690,448,1222,478]].forEach(r=>{ fillBox(...r); box(...r); line([[r[0]+6,r[3]-6],[r[2]-6,r[3]-6]]); line([[r[0]+6,r[1]+6],[r[2]-6,r[1]+6]]); });
+    // ground beam (below floor, hidden)
+    fillBox(82,708,1222,724); box(82,708,1222,724,true);
+
+    // columns: visible + hidden inside walls
+    const cols=[[82,460,132,742,0],[297,505,344,708,0],[522,462,572,750,0],[1188,460,1222,705,0],[680,478,702,705,1],[952,478,974,705,1]];
+    cols.forEach(([x1,y1,x2,y2,hid])=>{
+      cc.fillStyle=SFILL; fillBox(x1,y1,x2,y2); cc.strokeStyle=STR; cc.lineWidth=lw; box(x1,y1,x2,y2,hid);
+      const iw=(x2-x1)*.22; cc.lineWidth=Math.max(1,.8*k); line([[x1+iw,y1+4],[x1+iw,y2-4]]); line([[x2-iw,y1+4],[x2-iw,y2-4]]);
+      for(let y=y1+10;y<y2-4;y+=16) line([[x1+iw,y],[x2-iw,y]]);
+      // footing under grade
+      const cx=(x1+x2)/2, gl=y2;
+      cc.lineWidth=lw; line([[cx-10,gl],[cx-10,gl+62]],true); line([[cx+10,gl],[cx+10,gl+62]],true);
+      cc.fillStyle=SFILL; fillBox(cx-48,gl+62,cx+48,gl+86); box(cx-48,gl+62,cx+48,gl+86,true);
+      cc.lineWidth=Math.max(1,.8*k); line([[cx-40,gl+80],[cx+40,gl+80]]);
+    });
+
+    // openings, drafted
+    cc.strokeStyle=DRAFT; cc.lineWidth=Math.max(1,k);
+    [[578,515,848,695],[970,512,1162,700],[1228,518,1258,640],[1298,543,1337,623]].forEach(r=>box(...r,true));
+    [[578,695,713,515],[713,515,848,695],[970,700,1066,512],[1066,512,1162,700]].forEach(([a,b,c,e])=>{ cc.strokeStyle='rgba(228,242,255,.35)'; line([[a,b],[c,e]],true); });
+    cc.strokeStyle=DRAFT; line([[0,712],[1536,712]]);
+
+    // 3. annotations
+    const fs=Math.max(10.5*k, L(13));
+    cc.font=`500 ${fs}px "IBM Plex Mono", monospace`; cc.textBaseline='middle';
+    const tag=(tx,ty,px,py,text,align='left',col=DRAFT)=>{
+      const [a,b]=P(px,py),[c,e]=P(tx,ty);
+      cc.strokeStyle=col; cc.fillStyle=col; cc.lineWidth=Math.max(1,.9*k);
+      cc.beginPath(); cc.arc(a,b,2.4*k,0,7); cc.fill();
+      cc.beginPath(); cc.moveTo(a,b); cc.lineTo(c,e); cc.lineTo(c+(align==='left'?14:-14)*k,e); cc.stroke();
+      const pad=5*k, tw=cc.measureText(text).width, x0=align==='left'?c+18*k:c-18*k-tw-pad*2;
+      cc.fillStyle='rgba(6,20,34,.72)'; cc.fillRect(x0,e-fs*.8,tw+pad*2,fs*1.6);
+      cc.fillStyle=col; cc.textAlign='left'; cc.fillText(text,x0+pad,e);
+    };
+    tag(880,236,905,312,'T1  STEEL ROOF TRUSS','right',STR);
+    tag(170,700,107,670,'C1  RC COLUMN 0.20×0.20','left',STR);
+    tag(1000,497,1080,470,'B1  RC BEAM 0.20×0.40','right',STR);
+    tag(700,860,547,825,'F1  FOOTING 1.00×1.00','left',STR);
+    tag(760,770,880,716,'GB1  GROUND BEAM 0.20×0.40','left',STR);
+    tag(1060,610,1000,640,'W2  SLIDING GLASS','left');
+    // levels at right
+    cc.font=`500 ${fs*.92}px "IBM Plex Mono", monospace`;
+    [[712,'±0.00 FFL'],[463,'+2.80 BEAM'],[280,'+5.20 RIDGE']].forEach(([y,txt])=>{
+      cc.strokeStyle='rgba(228,242,255,.6)'; cc.lineWidth=Math.max(1,k); line([[1230,y],[1415,y]],true);
+      const [a,b]=P(1425,y); cc.beginPath(); cc.moveTo(a,b); cc.lineTo(a-5*k,b-8*k); cc.lineTo(a+5*k,b-8*k); cc.closePath(); cc.stroke();
+      cc.fillStyle=DRAFT; cc.textAlign='left'; cc.fillText(txt,a+10*k,b-5*k);
+    });
+    // overall dimension above roof
+    cc.strokeStyle=DRAFT; cc.lineWidth=Math.max(1,k);
+    line([[75,905],[1405,905]]); [[75],[1405]].forEach(([x])=>{ line([[x,891],[x,919]]); line([[x-7,912],[x+7,898]]); });
+    const [mx,my]=P(740,905); cc.textAlign='center'; cc.fillStyle=DRAFT; cc.fillText('16.40 m',mx,my-fs*.9);
+    cc.textAlign='left'; cc.font=`600 ${fs}px "IBM Plex Mono", monospace`;
+    const [tx,ty]=P(75,965); cc.fillText('X-RAY  ·  STRUCTURE VIEW  ·  RC DESIGN',tx,ty);
+    cc.setLineDash([]);
+  }
+  function stamp(x,y){
+    const b=brush.getContext('2d'), c=diam/2;
+    b.globalCompositeOperation='source-over'; b.clearRect(0,0,diam,diam);
+    const g=b.createRadialGradient(c,c,0,c,c,c); g.addColorStop(0,'rgba(255,255,255,1)'); g.addColorStop(.55,'rgba(255,255,255,.82)'); g.addColorStop(1,'rgba(255,255,255,0)');
+    b.fillStyle=g; b.fillRect(0,0,diam,diam);
+    b.globalCompositeOperation='source-in'; b.drawImage(cover,x-c,y-c,diam,diam,0,0,diam,diam);
+    ctx.globalCompositeOperation='source-over'; ctx.drawImage(brush,x-c,y-c);
+  }
+  function frame(){
+    const drawing=points.length>0;
+    if(drawing) idle=0; else idle++;
+    if(idle>fadeFrames){ running=false; return; }
+    const fade=drawing?decay:Math.min(decay+idle*.004,.5);
+    ctx.globalCompositeOperation='destination-out'; ctx.fillStyle=`rgba(0,0,0,${fade})`; ctx.fillRect(0,0,W,H);
+    if(drawing){ points.forEach(([x,y])=>stamp(x,y)); points=[]; }
+    if(idle===fadeFrames){ ctx.globalCompositeOperation='source-over'; ctx.clearRect(0,0,W,H); }
+    requestAnimationFrame(frame);
+  }
+  function onMove(e){
+    if(!ready||!W) return;
+    if(scanning){ scanning=false; last=null; }
+    const r=canvas.getBoundingClientRect(), x=(e.clientX-r.left)*dpr, y=(e.clientY-r.top)*dpr;
+    if(x<-radius||y<-radius||x>W+radius||y>H+radius){ last=null; lens.classList.remove('on'); return; }
+    if(last){ const dx=x-last[0], dy=y-last[1], dist=Math.hypot(dx,dy), step=Math.max(radius*.3,1), n=Math.min(Math.ceil(dist/step),60);
+      for(let i=1;i<=n;i++) points.push([last[0]+dx*i/n,last[1]+dy*i/n]); } else points.push([x,y]);
+    last=[x,y];
+    const hr=box.getBoundingClientRect(), inside=e.clientX>=hr.left&&e.clientX<=hr.right&&e.clientY>=hr.top&&e.clientY<=hr.bottom;
+    lens.classList.toggle('on',inside); if(inside) lens.style.transform=`translate(${e.clientX-hr.left}px,${e.clientY-hr.top}px)`;
+    kick();
+  }
+  function kick(){ if(!running){ running=true; idle=0; requestAnimationFrame(frame); } }
+  // one automatic X-ray pass over the house after the page opens
+  function scan(){
+    if(reduce||!W) return;
+    const imgPt = (fx,fy)=>{
+      if(!baseImg) return [W*fx, H*fy];
+      const pos=getComputedStyle(img).objectPosition.split(' ').map(v=>parseFloat(v)/100);
+      const nw=baseImg.naturalWidth, nh=baseImg.naturalHeight, sc=Math.max(W/nw,H/nh);
+      const ox=(W-nw*sc)*(isNaN(pos[0])?.5:pos[0]), oy=(H-nh*sc)*(isNaN(pos[1])?.5:pos[1]);
+      return [ox+fx*nw*sc, oy+fy*nh*sc];
+    };
+    // path in image fractions: left to right across the house, weaving roof → walls → footings
+    const path = cssW<1024 ? t => [W*(.1+.8*t), H*(.5+.1*Math.sin(t*Math.PI*3.2))]
+                           : t => imgPt(.05+.88*t, .52+.13*Math.sin(t*Math.PI*3.2));
+    const dur=2800, t0=performance.now(); scanning=true; let prev=null;
+    lens.classList.add('on');
+    function step(now){
+      if(!scanning){ return; }
+      const t=Math.min((now-t0)/dur,1), e=t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+      const [x,y]=path(e);
+      if(prev){ const dx=x-prev[0], dy=y-prev[1], n=Math.min(Math.ceil(Math.hypot(dx,dy)/Math.max(radius*.3,1)),60);
+        for(let i=1;i<=n;i++) points.push([prev[0]+dx*i/n,prev[1]+dy*i/n]); } else points.push([x,y]);
+      prev=[x,y];
+      lens.style.transform=`translate(${x/dpr}px,${y/dpr}px)`;
+      kick();
+      if(t<1) requestAnimationFrame(step);
+      else { scanning=false; setTimeout(()=>{ if(!scanning) lens.classList.remove('on'); },250); }
+    }
+    requestAnimationFrame(step);
+  }
+  window.__xrayScan = ()=>{ if(built) scan(); else wantScan=true; };
+  async function init(){
+    if(HERO_IMAGES.base){
+      $('#home').classList.add('has-photo'); img.src=HERO_IMAGES.base;
+      try{ baseImg=await loadImg(HERO_IMAGES.base); }catch(e){ baseImg=null; HERO_IMAGES.base=null; $('#home').classList.remove('has-photo'); }
+    }
+    try{ if(HERO_IMAGES.reveal) revImg=await loadImg(HERO_IMAGES.reveal); }catch(e){}
+    build();
+    if(reduce){ canvas.remove(); return; }
+    if(wantScan) scan();
+    addEventListener('pointermove',onMove,{passive:true});
+    let to; new ResizeObserver(()=>{ clearTimeout(to); to=setTimeout(build,150); }).observe(box);
+  }
+  init();
+  document.fonts?.ready.then(()=>build());
+})();
+
+/* ---------- Projects ---------- */
+const DEFAULT_PROJECTS=[
+  {name:'Two-Storey Modern Home', category:'Custom build', year:'2025', desc:"Four-bedroom family home built on the owner's land, with a cantilevered upper floor and carport.", tags:['Custom Build','280 m²','10 months']},
+  {name:'Courtyard House', category:'Custom build', year:'2024', desc:'Single-storey home planned around a central courtyard for cross ventilation and daylight.', tags:['Custom Build','190 m²','8 months']},
+  {name:'Garden Home, Plot 7', category:'For sale', year:'2026', status:'Available', desc:'Three-bedroom modern home, finished by our crews and open for viewing.', tags:['For Sale','3 bed · 2 bath','165 m²']},
+  {name:'Teak House Renovation', category:'Renovation', year:'2024', desc:'A 30-year-old house given a new roof, rewiring, kitchen, and bathrooms while keeping its teak walls.', tags:['Renovation','Roof & Wiring','Interiors']}
+];
+const PROJECTS = (Array.isArray(PROJ) && PROJ.length ? PROJ : DEFAULT_PROJECTS).filter(p=>p && p.name);
+const cardsEl=$('#cards');
+let buildArt=0;
+PROJECTS.forEach((p,i)=>{
+  const cat=p.category||'Custom build', type=cat==='For sale'?'buy':cat==='Renovation'?'reno':'build';
+  const art=type==='buy'?'sale':type==='reno'?'reno':(buildArt++%2?'one':'two');
+  const pic=imgPath(p.image);
+  const li=document.createElement('li'); li.className='rv'; li.style.setProperty('--d',(i%4)*90+'ms');
+  li.innerHTML=`<button class="card${pic?' has-img':''}" data-modal="${type}" aria-label="${esc(p.name)}, ask about this project">
+    ${pic?`<img class="ph" src="${esc(pic)}" alt="${esc(p.name)}" loading="lazy">`:`<canvas data-art="${art}" aria-hidden="true"></canvas>`}
+    <div class="meta"><div>${esc(cat)}${p.year?` — ${esc(p.year)}`:''}${p.status?`<div class="st">${esc(p.status)}</div>`:''}</div><span class="ub"><svg class="i"><use href="#ur"/></svg></span></div>
+    <div class="bt"><h3>${esc(p.name)}</h3>${p.desc?`<p>${esc(p.desc)}</p>`:''}<div class="chips">${(Array.isArray(p.tags)?p.tags:[]).filter(Boolean).map(t=>`<span class="chip">${esc(t)}</span>`).join('')}</div></div>
+  </button>`;
+  cardsEl.append(li);
+});
+function drawCardArt(cv){
+  const r=cv.getBoundingClientRect(); if(!r.width) return;
+  const d=Math.min(devicePixelRatio||1,2), w=cv.width=Math.round(r.width*d), h=cv.height=Math.round(r.height*d), c=cv.getContext('2d'), k=d;
+  const art=cv.dataset.art, s=Math.min(w*.07,h*.075), cx=w*.5, gy=h*.5;
+  const X=m=>cx+m*s, Y=m=>gy-m*s;
+  c.strokeStyle='rgba(255,255,255,.05)'; c.lineWidth=k;
+  for(let x=cx%(s);x<w;x+=s){ c.beginPath(); c.moveTo(x,0); c.lineTo(x,h); c.stroke(); }
+  for(let y=gy%(s);y<h;y+=s){ c.beginPath(); c.moveTo(0,y); c.lineTo(w,y); c.stroke(); }
+  c.strokeStyle='rgba(255,255,255,.55)'; c.lineWidth=1.3*k;
+  const sr=(a,b,e,f)=>c.strokeRect(X(a),Y(f),(e-a)*s,(f-b)*s);
+  c.beginPath(); c.moveTo(X(-8),gy); c.lineTo(X(8),gy); c.stroke();
+  if(art==='two'){ sr(-5,0,3,3); sr(-3,3.2,5,6); sr(-3.3,6,5.3,6.3); sr(-1,.2,2.6,2.6); sr(.5,3.7,4.4,5.6); sr(-4.2,0,-3.2,2.3); }
+  if(art==='one'){ sr(-6,0,6,3); sr(-6.3,3,6.3,3.3); sr(-2,.3,2,2.6); c.beginPath(); c.moveTo(0,0); sr(-5.2,.8,-3.2,2.4); sr(3.2,.8,5.2,2.4); }
+  if(art==='sale'){ c.beginPath(); c.moveTo(X(-5),Y(3)); c.lineTo(X(0),Y(6)); c.lineTo(X(5),Y(3)); c.stroke(); sr(-4.4,0,4.4,3); sr(-1,0,1,2.2); sr(-3.6,.8,-2,2.2); sr(2,.8,3.6,2.2);
+    c.strokeStyle='#cf8047'; c.lineWidth=2*k; c.beginPath(); c.arc(X(5.6),Y(5.2),s*.9,0,7); c.stroke(); }
+  if(art==='reno'){ c.setLineDash([5*k,5*k]); c.beginPath(); c.moveTo(X(-5.4),Y(3)); c.lineTo(X(0),Y(5.6)); c.lineTo(X(5.4),Y(3)); c.stroke(); c.setLineDash([]);
+    c.strokeStyle='#cf8047'; c.lineWidth=1.6*k; c.beginPath(); c.moveTo(X(-5.8),Y(3.1)); c.lineTo(X(0),Y(6.2)); c.lineTo(X(5.8),Y(3.1)); c.stroke();
+    c.strokeStyle='rgba(255,255,255,.55)'; c.lineWidth=1.3*k; sr(-4.6,0,4.6,3); sr(-1,0,1,2.2); sr(-3.8,1,-2.2,2.2); sr(2.2,1,3.8,2.2); }
+}
+const cardRO=new ResizeObserver(es=>es.forEach(e=>drawCardArt(e.target)));
+$$('canvas[data-art]').forEach(cv=>cardRO.observe(cv));
+
+/* ---------- Stats count-up (top bottom → center center) ---------- */
+const counters=$$('.cu'); let lastT=0;
+function updateCounters(){
+  const vh=innerHeight;
+  counters.forEach(el=>{
+    const r=el.getBoundingClientRect(), start=vh, end=vh/2 - r.height/2;
+    const p=Math.min(Math.max((start-r.top)/(start-end),0),1);
+    el.textContent=Math.round(p*+el.dataset.to).toLocaleString('en-US');
+  });
+}
+function onScroll(){ const now=performance.now(); if(now-lastT<30) return; lastT=now; updateCounters(); }
+addEventListener('scroll',()=>{ onScroll(); requestAnimationFrame(updateCounters); },{passive:true});
+updateCounters();
+
+/* ---------- Menu ---------- */
+const menu=$('#menu');
+function openMenu(){ if(menu.classList.contains('open')) return; menu.classList.add('open'); menu.setAttribute('aria-hidden','false'); stopScroll(); $('#closeMenu').focus(); }
+function closeMenu(){ if(!menu.classList.contains('open')) return; menu.classList.remove('open'); menu.setAttribute('aria-hidden','true'); startScroll(); }
+$('#openMenu').addEventListener('click',openMenu);
+$('#closeMenu').addEventListener('click',closeMenu);
+
+/* ---------- Modal ---------- */
+const modal=$('#modal'), form=$('#req');
+function openModal(type){
+  if(type) $('#fType').value=type;
+  if(modal.classList.contains('open')) return;
+  modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); stopScroll();
+  setTimeout(()=>$('#fName')?.focus(),200);
+}
+function closeModal(){
+  if(!modal.classList.contains('open')) return;
+  modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); startScroll();
+  setTimeout(()=>{ form.reset(); $('#mForm').hidden=false; $('#mOk').hidden=true; $('#sendLbl').textContent='Send request'; },300);
+}
+modal.addEventListener('click',e=>{ if(e.target===modal) closeModal(); });
+$('#mClose').addEventListener('click',closeModal);
+$('#okClose').addEventListener('click',closeModal);
+form.addEventListener('submit',e=>{
+  e.preventDefault();
+  if(!form.checkValidity()){ form.reportValidity(); return; }
+  $('#sendLbl').textContent='Sending…';
+  // Live site: send `new FormData(form)` to your form service here.
+  setTimeout(()=>{ $('#mForm').hidden=true; $('#mOk').hidden=false; },700);
+});
+addEventListener('keydown',e=>{ if(e.key==='Escape'){ if(modal.classList.contains('open')) closeModal(); else closeMenu(); } });
+
+/* ---------- Routing ---------- */
+document.addEventListener('click',e=>{
+  const g=e.target.closest('[data-go]'), m=e.target.closest('[data-modal]');
+  if(g){ const inMenu=menu.contains(g); if(inMenu) closeMenu(); scrollToId(g.dataset.go); }
+  else if(m){ if(menu.contains(m)) closeMenu(); openModal(m.dataset.modal||null); }
+});
+
+observeReveals();
+</script>

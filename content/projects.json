@@ -1,0 +1,6 @@
+[
+  { "name": "Modern Single-Storey Home", "category": "For sale", "year": "2026", "status": "Available", "desc": "Three-bedroom single-storey home with a covered carport, timber feature wall, and full-height glass to the living room.", "tags": ["For Sale", "3 bed · 2 bath", "165 m²"], "image": "img/hero.jpg" },
+  { "name": "Two-Storey Modern Home", "category": "Custom build", "year": "2025", "status": "", "desc": "Four-bedroom family home built on the owner's land, with a cantilevered upper floor and carport.", "tags": ["Custom Build", "280 m²", "10 months"], "image": "" },
+  { "name": "Courtyard House", "category": "Custom build", "year": "2024", "status": "", "desc": "Single-storey home planned around a central courtyard for cross ventilation and daylight.", "tags": ["Custom Build", "190 m²", "8 months"], "image": "" },
+  { "name": "Teak House Renovation", "category": "Renovation", "year": "2024", "status": "", "desc": "A 30-year-old house given a new roof, rewiring, kitchen, and bathrooms while keeping its teak walls.", "tags": ["Renovation", "Roof & Wiring", "Interiors"], "image": "" }
+]
