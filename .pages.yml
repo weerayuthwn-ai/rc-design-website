@@ -1,0 +1,99 @@
+# Pages CMS configuration for the RC Design website.
+# Edit content at https://app.pagescms.org (sign in with GitHub).
+media:
+  input: img
+  output: img
+
+content:
+  - name: projects
+    label: "ผลงาน / บ้านขาย (Projects)"
+    type: file
+    path: content/projects.json
+    format: json
+    list: true
+    fields:
+      - name: name
+        label: "ชื่อโครงการ (Name)"
+        type: string
+        required: true
+      - name: category
+        label: "ประเภท (Category)"
+        type: select
+        options:
+          values: ["Custom build", "For sale", "Renovation"]
+      - name: year
+        label: "ปี ค.ศ. (Year)"
+        type: string
+      - name: status
+        label: "สถานะ เช่น Available / Sold (เว้นว่างได้)"
+        type: string
+      - name: desc
+        label: "รายละเอียดสั้น (Description)"
+        type: text
+      - name: tags
+        label: "ป้ายข้อมูล เช่น 3 bed · 2 bath, 165 m²"
+        type: string
+        list: true
+      - name: image
+        label: "รูปบ้าน (แนวนอน, กว้างประมาณ 1600px)"
+        type: image
+
+  - name: site
+    label: "ข้อมูลบริษัทและหน้าเว็บ (Company & page text)"
+    type: file
+    path: content/site.json
+    format: json
+    fields:
+      - name: company
+        label: "ข้อมูลบริษัท (Company)"
+        type: object
+        fields:
+          - { name: brand, label: "ชื่อแบรนด์", type: string }
+          - { name: legalName, label: "ชื่อบริษัท (อังกฤษ)", type: string }
+          - { name: legalNameTh, label: "ชื่อบริษัท (ไทย)", type: string }
+          - { name: about, label: "คำอธิบายบริษัท (ท้ายเว็บ)", type: text }
+          - { name: phone, label: "เบอร์โทร", type: string }
+          - { name: line, label: "LINE ID", type: string }
+          - { name: email, label: "อีเมล", type: string }
+          - { name: hours, label: "เวลาทำการ", type: string }
+          - { name: address, label: "ที่อยู่ (เว้นว่างได้)", type: text }
+          - { name: facebook, label: "ลิงก์ Facebook (เว้นว่างได้)", type: string }
+      - name: hero
+        label: "ส่วนบนสุดของหน้า (Hero)"
+        type: object
+        fields:
+          - { name: eyebrow, label: "ข้อความเล็กเหนือหัวข้อ", type: string }
+          - { name: headline, label: "หัวข้อใหญ่ (1 ช่อง = 1 บรรทัด)", type: string, list: true }
+          - { name: lead, label: "ข้อความแนะนำ", type: text }
+          - { name: rating, label: "ข้อความข้างดาว 5 ดวง", type: string }
+          - { name: image, label: "รูปบ้านหลัก", type: image }
+          - { name: structureLines, label: "แสดงเส้นโครงสร้าง (เปิดเฉพาะรูป hero.jpg เดิม)", type: boolean }
+      - name: stats
+        label: "ตัวเลขสถิติ (Numbers)"
+        type: object
+        list: true
+        fields:
+          - { name: value, label: "ตัวเลข", type: number }
+          - { name: suffix, label: "ต่อท้าย เช่น + หรือ yr", type: string }
+          - { name: label, label: "คำอธิบาย", type: string }
+      - name: services
+        label: "บริการ (Services)"
+        type: object
+        list: true
+        fields:
+          - { name: title, label: "ชื่อบริการ", type: string }
+          - { name: desc, label: "รายละเอียด", type: text }
+          - { name: tag, label: "ป้าย เช่น Main service (เว้นว่างได้)", type: string }
+          - name: type
+            label: "เมื่อกด เปิดฟอร์มประเภท"
+            type: select
+            options:
+              values: [build, buy, reno]
+      - name: process
+        label: "ขั้นตอนการสร้าง (Process)"
+        type: object
+        list: true
+        fields:
+          - { name: title, label: "ชื่อขั้นตอน", type: string }
+          - { name: desc, label: "รายละเอียด", type: text }
+          - { name: duration, label: "ระยะเวลา", type: string }
